@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+	<comment>English (US) Localization File</comment>
+	
+	<entry key="item.angleIron.name">Angle Iron</entry>
+	<entry key="item.angleIronCross.name">Angle Iron Cross</entry>
+	<entry key="item.mirrorSupport.name">Mirror Support</entry>
+	<entry key="item.mirror.name">Mirror</entry>
+	<entry key="item.lens.name">Lens</entry>
+	<entry key="item.highPressureIronWafer.name">High Pressure Iron Wafer</entry>
+	<entry key="item.ironWafer.name">Iron Wafer</entry>
+	<entry key="item.silverWafer.name">Silver Wafer</entry>
+	<entry key="item.copperWafer.name">Copper Wafer</entry>
+	<entry key="item.temperedGlass.name">Tempered Glass</entry>
+	<entry key="item.copperSpool.name">Copper Spool</entry>
+	<entry key="item.silverSpool.name">Silver Spool</entry>
+	<entry key="item.adhesive.name">Adhesive</entry>
+	<entry key="item.sodiumNitrate.name">Sodium Nitrate</entry>
+	
+	<entry key="tile.sodiumNitrateCrystal.name">Crystalized Sodium Nitrate</entry>
+	
+	<entry key="itemGroup.HeliostatPower">Heliostat Power</entry>
+</properties>
