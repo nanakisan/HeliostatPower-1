@@ -1,0 +1,17 @@
+[
+{
+  "modid": "heliostatpower",
+  "name": "HeliostatPower",
+  "description": "Heliostat Power Plant",
+  "version": "0.0.0",
+  "mcversion": "1.5.1",
+  "logoFile": "",
+  "url": "",
+  "updateUrl": "",
+  "authors": [ "rakosmanjr", "Nanakisan" ],
+  "credits": "",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
