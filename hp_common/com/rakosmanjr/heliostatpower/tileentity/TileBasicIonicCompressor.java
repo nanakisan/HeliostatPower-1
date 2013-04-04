@@ -31,6 +31,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	
 	private final int gridWidth = CraftingIonicCompressor.GRID_WIDTH;
 	private final int gridHeight = CraftingIonicCompressor.GRID_HEIGHT;
+	@SuppressWarnings("unused")
 	private final int gridTotal = CraftingIonicCompressor.GRID_TOTAL;
 	
 	private final int FUEL_SLOT = 15;

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import com.rakosmanjr.heliostatpower.items.ModItems;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -36,6 +37,21 @@ public class CraftingIonicCompressor
 			new ItemStack(Item.ingotIron), null, null, null, new ItemStack(Item.ingotIron),
 			null, new ItemStack(Item.ingotIron), null, new ItemStack(Item.ingotIron), null,
 			null, null, new ItemStack(Item.ingotIron), null, null });
+		
+		AddRecipe(new ItemStack(ModItems.mirror, 1), 20 * 5, 20, 1, new ItemStack[] { 
+			new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass),
+			new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.silverWafer), new ItemStack(ModItems.silverWafer), new ItemStack(ModItems.silverWafer), new ItemStack(ModItems.copperWafer),
+			new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer) });
+		
+		AddRecipe(new ItemStack(ModItems.highPressureIronWafer, 1), 20 * 5, 20, 1, new ItemStack[] { 
+			new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer),
+			new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer),
+			new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer) });
+		
+		AddRecipe(new ItemStack(ModItems.temperedGlass, 1), 20 * 5, 20, 1, new ItemStack[] { 
+			new ItemStack(ModItems.ironWafer), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(ModItems.ironWafer),
+			new ItemStack(ModItems.ironWafer), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(ModItems.ironWafer),
+			new ItemStack(ModItems.ironWafer), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(ModItems.ironWafer) });
 	}
 	
 	public static CraftingIonicCompressor Instance()

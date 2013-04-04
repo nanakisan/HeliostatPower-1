@@ -9,12 +9,8 @@
  */
 package com.rakosmanjr.heliostatpower.block;
 
-import java.util.logging.Level;
-
 import com.rakosmanjr.heliostatpower.HeliostatPower;
-import com.rakosmanjr.heliostatpower.core.helpers.LogHelper;
 import com.rakosmanjr.heliostatpower.lib.GuiIds;
-import com.rakosmanjr.heliostatpower.lib.RenderIds;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
 
@@ -22,7 +18,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BlockBasicIonicCompressor extends BlockHeliostat
 {
