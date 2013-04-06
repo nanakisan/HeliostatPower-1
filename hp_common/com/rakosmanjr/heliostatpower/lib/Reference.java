@@ -15,6 +15,9 @@ public class Reference
 	public static boolean DEBUG = false;
 	
 	// General mod stuff
+	//public static String BASE_JAR_PATH;// = ((File)(FMLInjectionData.data()[6])).getAbsolutePath().replace(File.separatorChar, '/').replace("/.", "");
+			//HeliostatPower.class.getResource("").getPath(); 
+			//HeliostatPower.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 	public static final String MOD_ID = "heliostatpower";
 	public static final String MOD_NAME = "HeliostatPower";
 	public static final String VERSION = "0.0.3";
@@ -34,6 +37,7 @@ public class Reference
 	
 	static
 	{
+		// Setup DEBUG
 		String debug = System.getenv().get("DEBUG");
 		
 		if (debug == null)

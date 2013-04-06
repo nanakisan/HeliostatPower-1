@@ -9,7 +9,7 @@
  */
 package com.rakosmanjr.heliostatpower.core.handlers;
 
-import com.rakosmanjr.heliostatpower.client.gui.machine.GuiBasicIonicCompressor;
+import com.rakosmanjr.heliostatpower.client.gui.machine.GuiIonicCompressor;
 import com.rakosmanjr.heliostatpower.gui.machine.ContainerBasicIonicCompressor;
 import com.rakosmanjr.heliostatpower.lib.GuiIds;
 import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
@@ -26,7 +26,7 @@ public class GuiHandler implements IGuiHandler
 	{
 		switch (Id)
 		{
-			case GuiIds.BASIC_IONIC_COMPRESSOR_ID:
+			case GuiIds.IONIC_COMPRESSOR_ID:
 				TileBasicIonicCompressor tileEntity = (TileBasicIonicCompressor)world.getBlockTileEntity(x, y, z);
 				return new ContainerBasicIonicCompressor(player.inventory, tileEntity);
 		}
@@ -40,9 +40,9 @@ public class GuiHandler implements IGuiHandler
 	{
 		switch (Id)
 		{
-			case GuiIds.BASIC_IONIC_COMPRESSOR_ID:
+			case GuiIds.IONIC_COMPRESSOR_ID:
 				TileBasicIonicCompressor tileEntity = (TileBasicIonicCompressor)world.getBlockTileEntity(x, y, z);
-				return new GuiBasicIonicCompressor(player.inventory, tileEntity);
+				return new GuiIonicCompressor(player.inventory, tileEntity);
 		}
 		
 		return null;

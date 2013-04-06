@@ -9,6 +9,7 @@
  */
 package com.rakosmanjr.heliostatpower.gui.machine;
 
+import com.rakosmanjr.heliostatpower.lib.XMLLocations;
 import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,27 +28,36 @@ public class ContainerBasicIonicCompressor extends Container
 		this.basicIonicCompressor = basicIonicCompressor;
 		
 		// Add crafting grid
-		// Start: (12, 20)
+		// Start: (10, 20)
+		int gridX = Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("craftgrid", "x"));
+		int gridY = Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("craftgrid", "y"));
+		
 		for (int craftingRowIndex = 0; craftingRowIndex < 3; ++craftingRowIndex)
 		{
 			for (int craftingColumnIndex = 0; craftingColumnIndex < 5; ++craftingColumnIndex)
 			{
 				addSlotToContainer(new Slot(basicIonicCompressor,
 						craftingColumnIndex + craftingRowIndex * 5,
-						12 + craftingColumnIndex * 18,
-						20 + craftingRowIndex * 18));
+						gridX + craftingColumnIndex * 18,
+						gridY + craftingRowIndex * 18));
 			}
 		}
 		
 		// Add sodium nitrate slot
-		addSlotToContainer(new Slot(basicIonicCompressor, 15, 111, 11));
+		addSlotToContainer(new Slot(basicIonicCompressor, 15,
+				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("nitrate", "x")),
+				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("nitrate", "y"))));
 		// Add output slot
-		addSlotToContainer(new Slot(basicIonicCompressor, 16, 144, 38));
+		addSlotToContainer(new Slot(basicIonicCompressor, 16,
+				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("output", "x")),
+				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("output", "y"))));
 		
-		AddPlayerInventory(inventoryPlayer);
+		AddPlayerInventory(inventoryPlayer,
+				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("playerinv", "x")),
+				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("playerinv", "y")));
 	}
 	
-	private void AddPlayerInventory(InventoryPlayer inventoryPlayer)
+	private void AddPlayerInventory(InventoryPlayer inventoryPlayer, int x, int y)
 	{
 		for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex)
 		{
@@ -55,8 +65,8 @@ public class ContainerBasicIonicCompressor extends Container
 			{
 				addSlotToContainer(new Slot(inventoryPlayer,
 						inventoryColumnIndex + inventoryRowIndex * 9 + 9,
-						8 + inventoryColumnIndex * 18,
-						84 + inventoryRowIndex * 18));
+						x + inventoryColumnIndex * 18,
+						y + inventoryRowIndex * 18));
 			}
 		}
 		

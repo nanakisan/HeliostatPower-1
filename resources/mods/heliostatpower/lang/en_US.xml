@@ -30,7 +30,7 @@
 	<entry key="tile.highDensityCabling.name">High Density Cabling</entry>
 	<entry key="tile.sodiumNitrateCrystal.name">Crystalized Sodium Nitrate</entry>
 	<entry key="tile.basicIonicCompressor.name">Basic Ionic Compressor [TEMP]</entry>
-	<entry key="tile.metalWorker.name">Metal Worker</entry>
+	<entry key="tile.basicMetalWorker.name">Metal Worker</entry>
 	
 	<entry key="tileBasicIonicCompressor">Ionic Compressor</entry>
 	

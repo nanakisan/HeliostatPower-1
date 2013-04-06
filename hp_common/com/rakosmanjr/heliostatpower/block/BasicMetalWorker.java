@@ -1,7 +1,7 @@
 /**
  * HeliostatPower
  *
- * @file BlockBasicIonicCompressor.java
+ * @file BasicMetalWorker.java
  *
  * @author rakosmanjr
  * @License Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -12,20 +12,20 @@ package com.rakosmanjr.heliostatpower.block;
 import com.rakosmanjr.heliostatpower.HeliostatPower;
 import com.rakosmanjr.heliostatpower.lib.GuiIds;
 import com.rakosmanjr.heliostatpower.lib.Strings;
-import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
+import com.rakosmanjr.heliostatpower.tileentity.TileBasicMetalWorker;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockBasicIonicCompressor extends BlockHeliostat
+public class BasicMetalWorker extends BlockHeliostat
 {
-	public BlockBasicIonicCompressor(int id)
+	public BasicMetalWorker(int id, Material material)
 	{
-		super(id, Material.iron);
+		super(id, material);
 		
-		setUnlocalizedName(Strings.BASIC_IONIC_COMPRESSOR_NAME);
+		setUnlocalizedName(Strings.BASIC_METAL_WORKER_NAME);
 		setCreativeTab(HeliostatPower.tabsHP);
 		setHardness(5F);
 		setBlockBounds(0, 0, 0, 1, 1, 1);
@@ -34,7 +34,7 @@ public class BlockBasicIonicCompressor extends BlockHeliostat
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
-		return new TileBasicIonicCompressor();
+		return new TileBasicMetalWorker();
 	}
 	
 	@Override
@@ -59,15 +59,15 @@ public class BlockBasicIonicCompressor extends BlockHeliostat
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9)
 	{
-		if (!world.isRemote && !player.isSneaking())
+		if (!world.isRemote && player.isSneaking())
 		{
-			TileBasicIonicCompressor tileCompressor = (TileBasicIonicCompressor)world
+			TileBasicMetalWorker tileWorker = (TileBasicMetalWorker)world
 					.getBlockTileEntity(x, y, z);
 			
-			if (tileCompressor != null)
+			if (tileWorker != null)
 			{
-				player.openGui(HeliostatPower.instance,
-						GuiIds.IONIC_COMPRESSOR_ID, world, x, y, z);
+				player.openGui(HeliostatPower.instance, GuiIds.METAL_WORKER_ID,
+						world, x, y, z);
 			}
 		}
 		

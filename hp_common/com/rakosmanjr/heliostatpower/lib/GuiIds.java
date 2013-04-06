@@ -11,5 +11,6 @@ package com.rakosmanjr.heliostatpower.lib;
 
 public class GuiIds
 {
-	public static final int BASIC_IONIC_COMPRESSOR_ID = 0;
+	public static final int IONIC_COMPRESSOR_ID = 0;
+	public static final int METAL_WORKER_ID = 1;
 }

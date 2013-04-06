@@ -17,5 +17,6 @@ public class Textures
 	public static final String GUI_SHEET_LOCATION = "/mods/heliostatpower/textures/gui/";
 	
 	// GUI textures
-	public static final String GUI_BASIC_IONIC_COMPRESSOR = GUI_SHEET_LOCATION + "basicIonicCompressor.png";
+	public static final String GUI_IONIC_COMPRESSOR_TEXTURE = GUI_SHEET_LOCATION + "ionicCompressor.png";
+	public static final String GUI_METAL_WORKER_TEXTURE = GUI_SHEET_LOCATION + "metalWorker.png";
 }

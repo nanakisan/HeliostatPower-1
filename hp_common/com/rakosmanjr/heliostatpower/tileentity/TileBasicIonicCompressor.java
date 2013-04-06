@@ -16,6 +16,7 @@ import org.omg.CORBA.Environment;
 import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
 import com.rakosmanjr.heliostatpower.lib.NBTTags;
 import com.rakosmanjr.heliostatpower.lib.Reference;
+import com.rakosmanjr.heliostatpower.lib.Status;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -37,8 +38,8 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	
 	private final int gridWidth = CraftingIonicCompressor.GRID_WIDTH;
 	private final int gridHeight = CraftingIonicCompressor.GRID_HEIGHT;
-	@SuppressWarnings("unused")
 	private final int gridTotal = CraftingIonicCompressor.GRID_TOTAL;
+	private final int totalSlots = gridTotal + 2;
 	
 	private final int FUEL_SLOT = 15;
 	private final int OUTPUT_SLOT = 16;
@@ -56,7 +57,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	
 	public TileBasicIonicCompressor()
 	{
-		inventory = new ItemStack[17];
+		inventory = new ItemStack[totalSlots];
 		
 		craftingGridChanged = true;
 		validRecipe = false;
@@ -342,8 +343,6 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 			{
 				return true;
 			}
-			
-			return false;
 		}
 		else
 		{
@@ -375,42 +374,11 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-		
-		NBTTagList tagList = tag.getTagList(NBTTags.NBT_INVENTORY);
-		
-		for (int i = 0; i < tagList.tagCount(); i++)
-		{
-			NBTTagCompound subTag = (NBTTagCompound)tagList.tagAt(i);
-			byte slot = subTag.getByte(NBTTags.NBT_INV_SLOT);
-			
-			if (slot >= 0 && slot < inventory.length)
-			{
-				inventory[slot] = ItemStack.loadItemStackFromNBT(subTag);
-			}
-		}
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
-		
-		NBTTagList itemList = new NBTTagList();
-		
-		for (int i = 0; i < inventory.length; i++)
-		{
-			ItemStack stack = inventory[i];
-			
-			if (stack != null)
-			{
-				NBTTagCompound subTag = new NBTTagCompound();
-				
-				tag.setByte(NBTTags.NBT_INV_SLOT, (byte)i);
-				stack.writeToNBT(subTag);
-				itemList.appendTag(subTag);
-			}
-		}
-		
-		tag.setTag(NBTTags.NBT_INVENTORY, itemList);
 	}
 }

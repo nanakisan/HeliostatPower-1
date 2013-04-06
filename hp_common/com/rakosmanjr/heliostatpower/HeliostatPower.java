@@ -9,8 +9,6 @@
  */
 package com.rakosmanjr.heliostatpower;
 
-import java.util.logging.Level;
-
 import net.minecraft.creativetab.CreativeTabs;
 
 import com.rakosmanjr.heliostatpower.block.ModBlocks;
@@ -54,8 +52,6 @@ public class HeliostatPower
 		
 		ModBlocks.Init();
 		ModItems.Init();
-		
-		LogHelper.Log(Level.INFO, Reference.MOD_NAME + " : Pre-Init finished");
 	}
 	
 	@Init
@@ -67,13 +63,11 @@ public class HeliostatPower
 		proxy.RegisterRenderers();
 		proxy.InitTileEntities();
 		proxy.RegisterWorldGen();
-		
-		LogHelper.Log(Level.INFO, Reference.MOD_NAME + " : Load finished");
 	}
 	
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		LogHelper.Log(Level.INFO, Reference.MOD_NAME + " : Post-Init finished");
+		
 	}
 }
