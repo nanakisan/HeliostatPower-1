@@ -9,13 +9,19 @@
  */
 package com.rakosmanjr.heliostatpower.tileentity;
 
+import java.util.Map;
+
+import org.omg.CORBA.Environment;
+
 import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
 import com.rakosmanjr.heliostatpower.lib.NBTTags;
+import com.rakosmanjr.heliostatpower.lib.Reference;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -46,6 +52,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	private int fuelConsumed;			// fuel used every time fuel is consumed
 	private ItemStack result;			// result of the recipe
 	private boolean gotFuel;			// set to true when there is FIRST fuel in the fuel slot
+	private Status status;				// status of the machine
 	
 	public TileBasicIonicCompressor()
 	{
@@ -54,6 +61,8 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		craftingGridChanged = true;
 		validRecipe = false;
 		inCycle = false;
+		
+		SetCustomName(Strings.TE_BASIC_IONIC_COMPRESSOR);
 	}
 	
 	public void updateEntity()
@@ -63,7 +72,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 			validRecipe = CanProcess();
 		}
 		
-		if (validRecipe)
+		if (validRecipe || inCycle)
 		{
 			if (inCycle)
 			{
@@ -73,6 +82,10 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 			{
 				StartProcessingCycle();
 			}
+		}
+		else
+		{
+			status = Status.WaitingForRecipe;
 		}
 	}
 	
@@ -125,14 +138,15 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	{
 		if (!gotFuel)
 		{
+			status = Status.WaitingForFuel;
 			gotFuel = CheckFuel() > 0;
+			return;
 		}
-		
-		totalTickCount++;
 		
 		if (totalTickCount >= maxTickCount)
 		{
 			EndProcessingCycle();
+			return;
 		}
 		else if (totalTickCount % fuelConsumptionRate == 0)
 		{
@@ -141,6 +155,9 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 				ForceEndProcessingCycle();
 			}
 		}
+		
+		status = Status.Processing;
+		totalTickCount++;
 	}
 	
 	// End the current processing cycle
@@ -148,7 +165,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	{
 		if (inventory[OUTPUT_SLOT] == null)
 		{
-			inventory[OUTPUT_SLOT] = result;
+			inventory[OUTPUT_SLOT] = result.copy();
 		}
 		else if (inventory[OUTPUT_SLOT].isItemEqual(result) && inventory[OUTPUT_SLOT].stackSize + result.stackSize <= inventory[OUTPUT_SLOT].getMaxStackSize())
 		{
@@ -157,16 +174,22 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		else
 		{
 			// Hold the stack and wait...
+			status = Status.OutputFull;
 			return;
 		}
 		
-		inCycle = false;
+		ForceEndProcessingCycle();
 	}
 	
 	// Forcefully end the current processing cycle, destroying the current processing items
 	public void ForceEndProcessingCycle()
 	{
 		inCycle = false;
+		totalTickCount = -1;
+		maxTickCount = -1;
+		fuelConsumptionRate = -1;
+		fuelConsumed = -1;
+		result = null;
 	}
 	
 	// Removes one fuel from the fuel slot
@@ -184,12 +207,12 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	// Returns the amount of fuel in the fuel slot
 	public int CheckFuel()
 	{
-		if (inventory[FUEL_SLOT] == null)
-		{
-			return 0;
-		}
-		
-		return inventory[FUEL_SLOT].stackSize;
+		return inventory[FUEL_SLOT] == null ? 0 : inventory[FUEL_SLOT].stackSize;
+	}
+	
+	public Status GetStatus()
+	{
+		return status;
 	}
 	
 	@Override
@@ -266,14 +289,13 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	@Override
 	public String getInvName()
 	{
-		return LanguageRegistry.instance().getStringLocalization(
-				Strings.TE_BASIC_IONIC_COMPRESSOR);
+		return GetCustomName();
 	}
 	
 	@Override
 	public boolean isInvNameLocalized()
 	{
-		return true;
+		return false;
 	}
 	
 	@Override
@@ -305,7 +327,30 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	@Override
 	public boolean isStackValidForSlot(int i, ItemStack itemstack)
 	{
-		return true;
+		if (i == FUEL_SLOT)
+		{
+			Map<Item, Integer> fuels = CraftingIonicCompressor.Instance().GetFuels();
+			
+			if (fuels.containsKey(itemstack.getItem()))
+			{
+				return true;
+			}
+		}
+		else if (i == OUTPUT_SLOT)
+		{
+			if (Reference.DEBUG)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override

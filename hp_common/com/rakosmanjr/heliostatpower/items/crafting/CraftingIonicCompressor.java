@@ -11,8 +11,12 @@ package com.rakosmanjr.heliostatpower.items.crafting;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.logging.Level;
 
+import com.rakosmanjr.heliostatpower.core.helpers.LogHelper;
 import com.rakosmanjr.heliostatpower.items.ModItems;
+
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -24,6 +28,7 @@ public class CraftingIonicCompressor
 	
 	private static int nextId = 0;
 	private static Map<Integer, RecipeItem> recipes;
+	private static Map<Item, Integer> fuels;
 	
 	public static final int GRID_WIDTH = 5;
 	public static final int GRID_HEIGHT = 3;
@@ -32,26 +37,67 @@ public class CraftingIonicCompressor
 	private CraftingIonicCompressor()
 	{
 		recipes = new Hashtable<Integer, RecipeItem>();
+		fuels = new Hashtable<Item, Integer>();
 		
-		AddRecipe(new ItemStack(ModItems.angleIron, 1), 20 * 5, 20, 1, new ItemStack[] { 
-			new ItemStack(Item.ingotIron), null, null, null, new ItemStack(Item.ingotIron),
-			null, new ItemStack(Item.ingotIron), null, new ItemStack(Item.ingotIron), null,
-			null, null, new ItemStack(Item.ingotIron), null, null });
+		AddRecipe(new ItemStack(ModItems.angleIron, 1), 20 * 5, 20, 1,
+				new ItemStack[] { new ItemStack(Item.ingotIron), null, null,
+						null, new ItemStack(Item.ingotIron), null,
+						new ItemStack(Item.ingotIron), null,
+						new ItemStack(Item.ingotIron), null, null, null,
+						new ItemStack(Item.ingotIron), null, null });
 		
-		AddRecipe(new ItemStack(ModItems.mirror, 1), 20 * 5, 20, 1, new ItemStack[] { 
-			new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass),
-			new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.silverWafer), new ItemStack(ModItems.silverWafer), new ItemStack(ModItems.silverWafer), new ItemStack(ModItems.copperWafer),
-			new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer) });
+		AddRecipe(new ItemStack(ModItems.mirror, 1), 20 * 5, 20, 1,
+				new ItemStack[] { new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.silverWafer),
+						new ItemStack(ModItems.silverWafer),
+						new ItemStack(ModItems.silverWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer) });
 		
-		AddRecipe(new ItemStack(ModItems.highPressureIronWafer, 1), 20 * 5, 20, 1, new ItemStack[] { 
-			new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer),
-			new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer), new ItemStack(ModItems.copperWafer),
-			new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer), new ItemStack(ModItems.ironWafer) });
+		AddRecipe(new ItemStack(ModItems.highPressureIronWafer, 1), 20 * 5, 20,
+				1, new ItemStack[] { new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.copperWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer) });
 		
-		AddRecipe(new ItemStack(ModItems.temperedGlass, 1), 20 * 5, 20, 1, new ItemStack[] { 
-			new ItemStack(ModItems.ironWafer), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(ModItems.ironWafer),
-			new ItemStack(ModItems.ironWafer), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(ModItems.ironWafer),
-			new ItemStack(ModItems.ironWafer), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(Block.thinGlass), new ItemStack(ModItems.ironWafer) });
+		AddRecipe(new ItemStack(ModItems.temperedGlass, 1), 20 * 5, 20, 1,
+				new ItemStack[] { new ItemStack(ModItems.ironWafer),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(ModItems.ironWafer),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(Block.thinGlass),
+						new ItemStack(ModItems.ironWafer) });
+		
+		AddFuel(ModItems.sodiumNitrate, 1);
 	}
 	
 	public static CraftingIonicCompressor Instance()
@@ -59,11 +105,31 @@ public class CraftingIonicCompressor
 		return instance;
 	}
 	
-	public void AddRecipe(ItemStack result, int maxTick, int fuelConsumptionRate, int fuelConsumed, ItemStack[] recipe)
+	public void AddFuel(Item item, int effectivness)
+	{
+		fuels.put(item, effectivness);
+	}
+	
+	public Map<Item, Integer> GetFuels()
+	{
+		return fuels;
+	}
+	
+	public int GetEffectivness(Item item)
+	{
+		return fuels.get(item);
+	}
+	
+	public void AddRecipe(ItemStack result, int maxTick,
+			int fuelConsumptionRate, int fuelConsumed, ItemStack[] recipe)
 	{
 		if (recipe.length != GRID_TOTAL)
 		{
-			// Housten, we have a problem...
+			LogHelper.Log(Level.WARNING, String.format(
+									"Invalid recipe addes! Wrong size!\nRecipeId: %s Result: %s",
+									nextId,
+									LanguageRegistry.instance().getStringLocalization(
+													result.getItem().getUnlocalizedName())));
 			return;
 		}
 		
@@ -92,7 +158,8 @@ public class CraftingIonicCompressor
 					itemFound = true;
 					continue;
 				}
-				else if ((input[i] != null && recipe.recipe[i] != null) && (input[i].isItemEqual(recipe.recipe[i])))
+				else if ((input[i] != null && recipe.recipe[i] != null)
+						&& (input[i].isItemEqual(recipe.recipe[i])))
 				{
 					if (input[i].stackSize >= recipe.recipe[i].stackSize)
 					{

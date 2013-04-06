@@ -12,7 +12,7 @@ package com.rakosmanjr.heliostatpower.lib;
 public class Reference
 {
 	// Debugging?
-	public static final boolean DEBUG_MODE = false;
+	public static boolean DEBUG = false;
 	
 	// General mod stuff
 	public static final String MOD_ID = "heliostatpower";
@@ -31,4 +31,18 @@ public class Reference
 	public static final float POWER_RATIO_MJ = 5f;
 	public static final float POWER_RATIO_EU_MJ = POWER_RATIO_EU / POWER_RATIO_MJ;
 	public static final float POWER_RATIO_MJ_EU = POWER_RATIO_MJ / POWER_RATIO_EU;
+	
+	static
+	{
+		String debug = System.getenv().get("DEBUG");
+		
+		if (debug == null)
+		{
+			DEBUG = false;
+		}
+		else
+		{
+			DEBUG = Boolean.parseBoolean(debug);
+		}
+	}
 }

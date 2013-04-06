@@ -15,20 +15,25 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerBasicIonicCompressor extends Container
 {
+	TileBasicIonicCompressor basicIonicCompressor;
+	
 	public ContainerBasicIonicCompressor(InventoryPlayer inventoryPlayer,
 			TileBasicIonicCompressor basicIonicCompressor)
 	{
+		this.basicIonicCompressor = basicIonicCompressor;
+		
 		// Add crafting grid
 		// Start: (12, 20)
 		for (int craftingRowIndex = 0; craftingRowIndex < 3; ++craftingRowIndex)
 		{
 			for (int craftingColumnIndex = 0; craftingColumnIndex < 5; ++craftingColumnIndex)
 			{
-				addSlotToContainer(new Slot(basicIonicCompressor, craftingColumnIndex
-						+ craftingRowIndex * 5,
+				addSlotToContainer(new Slot(basicIonicCompressor,
+						craftingColumnIndex + craftingRowIndex * 5,
 						12 + craftingColumnIndex * 18,
 						20 + craftingRowIndex * 18));
 			}
@@ -66,5 +71,45 @@ public class ContainerBasicIonicCompressor extends Container
 	public boolean canInteractWith(EntityPlayer entityplayer)
 	{
 		return true;
+	}
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
+			int slotIndex)
+	{
+		ItemStack newItemStack = null;
+		Slot slot = (Slot)inventorySlots.get(slotIndex);
+		
+		if (slot != null && slot.getHasStack())
+		{
+			ItemStack itemStack = slot.getStack();
+			newItemStack = itemStack.copy();
+			
+			if (slotIndex < 17)
+			{
+				if (!this.mergeItemStack(itemStack, 17, inventorySlots.size(), true))
+					return null;
+			}
+			else if (basicIonicCompressor.isStackValidForSlot(15, itemStack))
+			{
+				if (!mergeItemStack(itemStack, 0, 16, true))
+				{
+					return null;
+				}
+			}
+			else if (!this.mergeItemStack(itemStack, 0, 17, false))
+				return null;
+			
+			if (itemStack.stackSize == 0)
+			{
+				slot.putStack((ItemStack)null);
+			}
+			else
+			{
+				slot.onSlotChanged();
+			}
+		}
+		
+		return newItemStack;
 	}
 }

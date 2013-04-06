@@ -9,15 +9,15 @@
  */
 package com.rakosmanjr.heliostatpower.items;
 
-import ic2.api.Items;
+//import ic2.api.Items;
 
 import com.rakosmanjr.heliostatpower.lib.ItemIds;
 
-import cpw.mods.fml.common.Loader;
+//import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.oredict.OreDictionary;
+//import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ModItems
@@ -60,9 +60,9 @@ public class ModItems
 		GameRegistry.addRecipe(new ShapedOreRecipe(mirrorSupport, "aaa", "www", " i ", 'a', adhesive, 'w', ironWafer, 'i', angleIronCross));
 		GameRegistry.addRecipe(new ShapedOreRecipe(lens, "tst", "t t", "tst", 't', temperedGlass, 's', silverWafer));
 		
-		if (Loader.isModLoaded("IC2"))
-		{
-			GameRegistry.addRecipe(new ShapedOreRecipe(adhesive, "rrr", "rwr", "rrr", 's', "itemRubber", 'w', OreDictionary.getOreName(Items.getItem("waterCell").itemID)));
-		}
+		//if (Loader.isModLoaded("IC2"))
+		//{
+		//	GameRegistry.addRecipe(new ShapedOreRecipe(adhesive, "rrr", "rwr", "rrr", 's', "itemRubber", 'w', OreDictionary.getOreName(Items.getItem("waterCell").itemID)));
+		//}
 	}
 }
