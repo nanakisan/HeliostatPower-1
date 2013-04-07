@@ -13,6 +13,7 @@ import com.rakosmanjr.heliostatpower.block.ModBlocks;
 import com.rakosmanjr.heliostatpower.items.ModItems;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
+import com.rakosmanjr.heliostatpower.tileentity.TileBasicMetalWorker;
 import com.rakosmanjr.heliostatpower.world.WorldGenerator;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -29,7 +30,8 @@ public class CommonProxy
 	
 	public void InitTileEntities()
 	{
-		GameRegistry.registerTileEntity(TileBasicIonicCompressor.class, Strings.TE_BASIC_IONIC_COMPRESSOR);
+		GameRegistry.registerTileEntity(TileBasicIonicCompressor.class, Strings.TE_IONIC_COMPRESSOR);
+		GameRegistry.registerTileEntity(TileBasicMetalWorker.class, Strings.TE_METAL_WORKER);
 	}
 	
 	public void RegisterItemsAndBlocks()
@@ -52,7 +54,8 @@ public class CommonProxy
 		
 		// Blocks
 		GameRegistry.registerBlock(ModBlocks.sodiumNitrateCrystal, Strings.SODIUM_NITRATE_CRYSTAL_NAME);
-		GameRegistry.registerBlock(ModBlocks.basicIonicCompressor, Strings.BASIC_IONIC_COMPRESSOR_NAME);
+		GameRegistry.registerBlock(ModBlocks.basicIonicCompressor, Strings.IONIC_COMPRESSOR_NAME);
+		GameRegistry.registerBlock(ModBlocks.basicMetalWorker, Strings.METAL_WORKER_NAME);
 	}
 	
 	public void RegisterWorldGen()

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui width="176" height="166">
+	<slots>
+		<craftgrid x="26" y ="20"/>
+		<output x="130" y ="38"/>
+		<playerinv x="8" y ="84"/>
+	</slots>
+	<text>
+		<name x="11" y ="6"/>
+		<status x="95" y ="64"/>
+		<mode x="95" y="21"/>
+	</text>
+</gui>

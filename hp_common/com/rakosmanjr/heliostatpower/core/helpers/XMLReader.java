@@ -69,4 +69,9 @@ public class XMLReader
 	{
 		return GetNodeAt(tagname).getAttributes().getNamedItem(attribute).getNodeValue();
 	}
+	
+	public int GetAttributeFromNodeInt(String tagname, String attribute)
+	{
+		return Integer.parseInt(GetNodeAt(tagname).getAttributes().getNamedItem(attribute).getNodeValue());
+	}
 }

@@ -12,6 +12,8 @@ package com.rakosmanjr.heliostatpower.lib;
 import java.util.Hashtable;
 import java.util.Map;
 
+import com.rakosmanjr.heliostatpower.tileentity.Status;
+
 public class NameMaps
 {
 	public static Map<Status, String> STATUS_NAMEMAP;

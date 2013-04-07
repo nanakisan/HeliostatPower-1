@@ -18,19 +18,19 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBasicIonicCompressor extends Container
+public class ContainerIonicCompressor extends Container
 {
 	TileBasicIonicCompressor basicIonicCompressor;
 	
-	public ContainerBasicIonicCompressor(InventoryPlayer inventoryPlayer,
+	public ContainerIonicCompressor(InventoryPlayer inventoryPlayer,
 			TileBasicIonicCompressor basicIonicCompressor)
 	{
 		this.basicIonicCompressor = basicIonicCompressor;
 		
 		// Add crafting grid
 		// Start: (10, 20)
-		int gridX = Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("craftgrid", "x"));
-		int gridY = Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("craftgrid", "y"));
+		int gridX = XMLLocations.IC_READER.GetAttributeFromNodeInt("craftgrid", "x");
+		int gridY = XMLLocations.IC_READER.GetAttributeFromNodeInt("craftgrid", "y");
 		
 		for (int craftingRowIndex = 0; craftingRowIndex < 3; ++craftingRowIndex)
 		{
@@ -45,16 +45,16 @@ public class ContainerBasicIonicCompressor extends Container
 		
 		// Add sodium nitrate slot
 		addSlotToContainer(new Slot(basicIonicCompressor, 15,
-				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("nitrate", "x")),
-				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("nitrate", "y"))));
+				XMLLocations.IC_READER.GetAttributeFromNodeInt("nitrate", "x"),
+				XMLLocations.IC_READER.GetAttributeFromNodeInt("nitrate", "y")));
 		// Add output slot
 		addSlotToContainer(new Slot(basicIonicCompressor, 16,
-				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("output", "x")),
-				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("output", "y"))));
+				XMLLocations.IC_READER.GetAttributeFromNodeInt("output", "x"),
+				XMLLocations.IC_READER.GetAttributeFromNodeInt("output", "y")));
 		
 		AddPlayerInventory(inventoryPlayer,
-				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("playerinv", "x")),
-				Integer.parseInt(XMLLocations.IC_READER.GetAttributeFromNode("playerinv", "y")));
+				XMLLocations.IC_READER.GetAttributeFromNodeInt("playerinv", "x"),
+				XMLLocations.IC_READER.GetAttributeFromNodeInt("playerinv", "y"));
 	}
 	
 	private void AddPlayerInventory(InventoryPlayer inventoryPlayer, int x, int y)

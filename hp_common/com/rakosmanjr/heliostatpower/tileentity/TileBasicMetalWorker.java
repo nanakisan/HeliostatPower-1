@@ -10,8 +10,8 @@
 package com.rakosmanjr.heliostatpower.tileentity;
 
 import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
+import com.rakosmanjr.heliostatpower.items.crafting.CraftingMetalWorker;
 import com.rakosmanjr.heliostatpower.lib.Reference;
-import com.rakosmanjr.heliostatpower.lib.Status;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,12 +28,12 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	private boolean validRecipe;
 	private boolean inCycle;
 	
-	private final int gridWidth = CraftingIonicCompressor.GRID_WIDTH;
-	private final int gridHeight = CraftingIonicCompressor.GRID_HEIGHT;
-	private final int gridTotal = CraftingIonicCompressor.GRID_TOTAL;
+	private final int gridWidth = CraftingMetalWorker.GRID_WIDTH;
+	private final int gridHeight = CraftingMetalWorker.GRID_HEIGHT;
+	private final int gridTotal = CraftingMetalWorker.GRID_TOTAL;
 	private final int totalSlots = gridTotal + 1;
 	
-	private final int OUTPUT_SLOT = 16;
+	private final int OUTPUT_SLOT = 9;
 	
 	// Cycle stuff
 	// Applies to the current cycle
@@ -51,7 +51,7 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 		validRecipe = false;
 		inCycle = false;
 		
-		SetCustomName(Strings.TE_BASIC_METAL_WORKER);
+		SetCustomName(Strings.TE_METAL_WORKER);
 	}
 	
 	public void updateEntity()
@@ -80,22 +80,75 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	
 	private boolean CanProcess()
 	{
-		return false;
+		recipeId = CraftingMetalWorker.Instance().GetRecipeId(inventory);
+		
+		return recipeId < 0 ? false : true;
 	}
 	
 	private void StartProcessingCycle()
 	{
+		if (recipeId < 0)
+		{
+			validRecipe = false;
+			return;
+		}
 		
+		totalTickCount = 0;
+		maxTickCount = CraftingMetalWorker.Instance().GetMaxTick(recipeId);
+		result = CraftingMetalWorker.Instance().GetResult(recipeId);
+		
+		inCycle = true;
+		
+		for (int x = 0; x < gridWidth; x++)
+		{
+			for (int y = 0; y < gridHeight; y++)
+			{
+				int slot = x * gridHeight + y;
+				int count = CraftingMetalWorker.Instance()
+						.ComponentsUsedInSlot(recipeId, slot);
+				
+				if (count == -1)
+				{
+					continue;
+				}
+				
+				decrStackSize(slot, count);
+			}
+		}
 	}
 	
 	private void ContinueProcessingCycle()
 	{
-		
+		if (totalTickCount >= maxTickCount)
+		{
+			EndProcessingCycle();
+		}
+		else
+		{
+			status = Status.Processing;
+			totalTickCount++;
+		}
 	}
 	
 	private void EndProcessingCycle()
 	{
+		if (inventory[OUTPUT_SLOT] == null)
+		{
+			inventory[OUTPUT_SLOT] = result.copy();
+		}
+		else if (inventory[OUTPUT_SLOT].isItemEqual(result)
+				&& inventory[OUTPUT_SLOT].stackSize + result.stackSize <= inventory[OUTPUT_SLOT]
+						.getMaxStackSize())
+		{
+			inventory[OUTPUT_SLOT].stackSize += result.stackSize;
+		}
+		else
+		{
+			status = Status.OutputFull;
+			return;
+		}
 		
+		ForceEndProcessingCycle();
 	}
 	
 	private void ForceEndProcessingCycle()
@@ -119,10 +172,10 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	
 	@Override
 	public ItemStack getStackInSlot(int i)
-	{
+	{	
 		if (i >= 0 && i < inventory.length)
 		{
-			return inventory[0];
+			return inventory[i];
 		}
 		
 		return null;

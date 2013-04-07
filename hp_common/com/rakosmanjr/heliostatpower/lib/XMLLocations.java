@@ -19,8 +19,9 @@ public class XMLLocations
 	public static String GUI_METAL_WORKER_SHORT_XML = Textures.GUI_SHEET_LOCATION + "metalWorker.xml";
 	
 	public static String GUI_IONIC_COMPRESSOR_FULL_XML = HeliostatPower.class.getResource(GUI_IONIC_COMPRESSOR_SHORT_XML).getPath().replaceFirst("%20", " ");
-	public static String GUI_METAL_WORKER_FULL_XML = HeliostatPower.class.getResource(GUI_METAL_WORKER_SHORT_XML).getPath();
+	public static String GUI_METAL_WORKER_FULL_XML = HeliostatPower.class.getResource(GUI_METAL_WORKER_SHORT_XML).getPath().replaceFirst("%20", " ");
 	
 	// XML readers
 	public static final XMLReader IC_READER = new XMLReader(GUI_IONIC_COMPRESSOR_FULL_XML);
+	public static final XMLReader MW_READER = new XMLReader(GUI_METAL_WORKER_FULL_XML);
 }

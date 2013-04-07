@@ -19,13 +19,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BasicMetalWorker extends BlockHeliostat
+public class BlockBasicMetalWorker extends BlockHeliostat
 {
-	public BasicMetalWorker(int id, Material material)
+	public BlockBasicMetalWorker(int id)
 	{
-		super(id, material);
+		super(id, Material.iron);
 		
-		setUnlocalizedName(Strings.BASIC_METAL_WORKER_NAME);
+		setUnlocalizedName(Strings.METAL_WORKER_NAME);
 		setCreativeTab(HeliostatPower.tabsHP);
 		setHardness(5F);
 		setBlockBounds(0, 0, 0, 1, 1, 1);
@@ -59,7 +59,7 @@ public class BasicMetalWorker extends BlockHeliostat
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9)
 	{
-		if (!world.isRemote && player.isSneaking())
+		if (!world.isRemote && !player.isSneaking())
 		{
 			TileBasicMetalWorker tileWorker = (TileBasicMetalWorker)world
 					.getBlockTileEntity(x, y, z);

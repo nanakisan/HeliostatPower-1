@@ -126,7 +126,7 @@ public class CraftingIonicCompressor
 		if (recipe.length != GRID_TOTAL)
 		{
 			LogHelper.Log(Level.WARNING, String.format(
-									"Invalid recipe addes! Wrong size!\nRecipeId: %s Result: %s",
+									"Invalid recipe added! Wrong size!\nRecipeId: %s Result: %s",
 									nextId,
 									LanguageRegistry.instance().getStringLocalization(
 													result.getItem().getUnlocalizedName())));

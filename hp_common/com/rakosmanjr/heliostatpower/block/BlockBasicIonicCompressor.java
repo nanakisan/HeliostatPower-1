@@ -25,7 +25,7 @@ public class BlockBasicIonicCompressor extends BlockHeliostat
 	{
 		super(id, Material.iron);
 		
-		setUnlocalizedName(Strings.BASIC_IONIC_COMPRESSOR_NAME);
+		setUnlocalizedName(Strings.IONIC_COMPRESSOR_NAME);
 		setCreativeTab(HeliostatPower.tabsHP);
 		setHardness(5F);
 		setBlockBounds(0, 0, 0, 1, 1, 1);

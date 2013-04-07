@@ -17,10 +17,12 @@ public class ModBlocks
 {
 	public static Block sodiumNitrateCrystal;
 	public static Block basicIonicCompressor;
+	public static Block basicMetalWorker;
 	
 	public static void Init()
 	{
 		sodiumNitrateCrystal = new BlockSodiumNitrateCrystal(BlockIds.SODIUM_NITRATE_CRYSTAL_DEFAULT);
 		basicIonicCompressor = new BlockBasicIonicCompressor(BlockIds.BASIC_IONIC_COMPRESSOR_DEFAULT);
+		basicMetalWorker = new BlockBasicMetalWorker(BlockIds.BASIC_METAL_WORKER_DEFAULT);
 	}
 }

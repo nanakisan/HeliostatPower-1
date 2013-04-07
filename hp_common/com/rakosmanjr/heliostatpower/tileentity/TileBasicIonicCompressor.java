@@ -16,7 +16,6 @@ import org.omg.CORBA.Environment;
 import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
 import com.rakosmanjr.heliostatpower.lib.NBTTags;
 import com.rakosmanjr.heliostatpower.lib.Reference;
-import com.rakosmanjr.heliostatpower.lib.Status;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -46,14 +45,16 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	
 	// Cycle stuff
 	// Applies to the current cycle
-	private int recipeId;				// recipeId for info lookup
-	private int totalTickCount;			// total ticks passed during cycle
-	private int maxTickCount;			// max ticks needed for cycle
-	private int fuelConsumptionRate;	// number of ticks to pass before consuming fuel
-	private int fuelConsumed;			// fuel used every time fuel is consumed
-	private ItemStack result;			// result of the recipe
-	private boolean gotFuel;			// set to true when there is FIRST fuel in the fuel slot
-	private Status status;				// status of the machine
+	private int recipeId; // recipeId for info lookup
+	private int totalTickCount; // total ticks passed during cycle
+	private int maxTickCount; // max ticks needed for cycle
+	private int fuelConsumptionRate; // number of ticks to pass before consuming
+										// fuel
+	private int fuelConsumed; // fuel used every time fuel is consumed
+	private ItemStack result; // result of the recipe
+	private boolean gotFuel; // set to true when there is FIRST fuel in the fuel
+								// slot
+	private Status status; // status of the machine
 	
 	public TileBasicIonicCompressor()
 	{
@@ -63,7 +64,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		validRecipe = false;
 		inCycle = false;
 		
-		SetCustomName(Strings.TE_BASIC_IONIC_COMPRESSOR);
+		SetCustomName(Strings.TE_IONIC_COMPRESSOR);
 	}
 	
 	public void updateEntity()
@@ -109,8 +110,10 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		
 		totalTickCount = 0;
 		maxTickCount = CraftingIonicCompressor.Instance().GetMaxTick(recipeId);
-		fuelConsumptionRate = CraftingIonicCompressor.Instance().GetFuelConsumptionRate(recipeId);
-		fuelConsumed = CraftingIonicCompressor.Instance().GetFuelConsumend(recipeId);
+		fuelConsumptionRate = CraftingIonicCompressor.Instance()
+				.GetFuelConsumptionRate(recipeId);
+		fuelConsumed = CraftingIonicCompressor.Instance().GetFuelConsumend(
+				recipeId);
 		result = CraftingIonicCompressor.Instance().GetResult(recipeId);
 		
 		inCycle = true;
@@ -122,7 +125,8 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 			for (int y = 0; y < gridHeight; y++)
 			{
 				int slot = x * gridHeight + y;
-				int count = CraftingIonicCompressor.Instance().ComponentsUsedInSlot(recipeId, slot);
+				int count = CraftingIonicCompressor.Instance()
+						.ComponentsUsedInSlot(recipeId, slot);
 				
 				if (count == -1)
 				{
@@ -168,7 +172,9 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		{
 			inventory[OUTPUT_SLOT] = result.copy();
 		}
-		else if (inventory[OUTPUT_SLOT].isItemEqual(result) && inventory[OUTPUT_SLOT].stackSize + result.stackSize <= inventory[OUTPUT_SLOT].getMaxStackSize())
+		else if (inventory[OUTPUT_SLOT].isItemEqual(result)
+				&& inventory[OUTPUT_SLOT].stackSize + result.stackSize <= inventory[OUTPUT_SLOT]
+						.getMaxStackSize())
 		{
 			inventory[OUTPUT_SLOT].stackSize += result.stackSize;
 		}
@@ -182,7 +188,8 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		ForceEndProcessingCycle();
 	}
 	
-	// Forcefully end the current processing cycle, destroying the current processing items
+	// Forcefully end the current processing cycle, destroying the current
+	// processing items
 	public void ForceEndProcessingCycle()
 	{
 		inCycle = false;
@@ -208,7 +215,8 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	// Returns the amount of fuel in the fuel slot
 	public int CheckFuel()
 	{
-		return inventory[FUEL_SLOT] == null ? 0 : inventory[FUEL_SLOT].stackSize;
+		return inventory[FUEL_SLOT] == null ? 0
+				: inventory[FUEL_SLOT].stackSize;
 	}
 	
 	public Status GetStatus()
@@ -330,7 +338,8 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	{
 		if (i == FUEL_SLOT)
 		{
-			Map<Item, Integer> fuels = CraftingIonicCompressor.Instance().GetFuels();
+			Map<Item, Integer> fuels = CraftingIonicCompressor.Instance()
+					.GetFuels();
 			
 			if (fuels.containsKey(itemstack.getItem()))
 			{

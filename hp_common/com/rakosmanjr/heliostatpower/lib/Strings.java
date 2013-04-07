@@ -45,10 +45,10 @@ public class Strings
 	public static final String COPPER_COILS_NAME = "copperCoils";
 	public static final String HIGH_DENSITY_CABLING_NAME = "highDensityCabling";
 	public static final String SODIUM_NITRATE_CRYSTAL_NAME = "sodiumNitrateCrystal";
-	public static final String BASIC_IONIC_COMPRESSOR_NAME = "basicIonicCompressor";
-	public static final String BASIC_METAL_WORKER_NAME = "basicMetalWorker";
+	public static final String IONIC_COMPRESSOR_NAME = "ionicCompressor";
+	public static final String METAL_WORKER_NAME = "metalWorker";
 	
 	// Tile entity names
-	public static final String TE_BASIC_IONIC_COMPRESSOR = "tileBasicIonicCompressor";
-	public static final String TE_BASIC_METAL_WORKER = "tileBasicMetalWorker";
+	public static final String TE_IONIC_COMPRESSOR = "tileIonicCompressor";
+	public static final String TE_METAL_WORKER = "tileMetalWorker";
 }
