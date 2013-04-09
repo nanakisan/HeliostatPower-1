@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui width="176" height="166">
 	<slots>
-		<craftgrid x="26" y ="20"/>
-		<output x="130" y ="38"/>
-		<playerinv x="8" y ="84"/>
+		<millergrid x="26" y="20"/>
+		<milleroutput x="130" y="38"/>
+		<drawergrid x="26" y="94"/>
+		<draweroutput x="130" y="94"/>
+		<playerinv x="8" y="139"/>
 	</slots>
 	<text>
-		<name x="11" y ="6"/>
-		<status x="95" y ="64"/>
-		<mode x="95" y="21"/>
+		<name x="26" y="94"/>
+		<millerstatus x="95" y="64"/>
+		<drawerstatus x="95" y="120"/>
 	</text>
 </gui>
