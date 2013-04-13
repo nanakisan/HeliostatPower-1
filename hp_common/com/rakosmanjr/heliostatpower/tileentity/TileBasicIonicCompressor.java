@@ -11,25 +11,20 @@ package com.rakosmanjr.heliostatpower.tileentity;
 
 import java.util.Map;
 
-import org.omg.CORBA.Environment;
-
-import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
-import com.rakosmanjr.heliostatpower.lib.NBTTags;
-import com.rakosmanjr.heliostatpower.lib.Reference;
-import com.rakosmanjr.heliostatpower.lib.Strings;
-
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+
+import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
+import com.rakosmanjr.heliostatpower.lib.Reference;
+import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class TileBasicIonicCompressor extends TileHeliostat implements
 		ISidedInventory
 {
-	private ItemStack[] inventory;
+	private final ItemStack[] inventory;
 	
 	private boolean craftingGridChanged;
 	private boolean validRecipe;
@@ -67,6 +62,7 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		SetCustomName(Strings.TE_IONIC_COMPRESSOR);
 	}
 	
+	@Override
 	public void updateEntity()
 	{
 		if (craftingGridChanged)

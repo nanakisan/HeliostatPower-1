@@ -42,7 +42,8 @@ public class HeliostatPower
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
-	public static CreativeTabs tabsHP = new CreativeTabHeliostatPower(CreativeTabs.getNextID(), Reference.MOD_NAME);
+	public static CreativeTabs tabsHP = new CreativeTabHeliostatPower(
+			CreativeTabs.getNextID(), Reference.MOD_NAME);
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event)
@@ -57,7 +58,8 @@ public class HeliostatPower
 	@Init
 	public void load(FMLInitializationEvent event)
 	{
-		NetworkRegistry.instance().registerGuiHandler(instance, new GuiHandler());
+		NetworkRegistry.instance().registerGuiHandler(instance,
+				new GuiHandler());
 		
 		proxy.RegisterItemsAndBlocks();
 		proxy.RegisterRenderers();

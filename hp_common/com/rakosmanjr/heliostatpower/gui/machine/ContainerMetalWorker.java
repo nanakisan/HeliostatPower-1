@@ -9,53 +9,85 @@
  */
 package com.rakosmanjr.heliostatpower.gui.machine;
 
-import java.util.ArrayList;
-
-import com.rakosmanjr.heliostatpower.lib.XMLLocations;
-import com.rakosmanjr.heliostatpower.tileentity.TileBasicMetalWorker;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import org.lwjgl.util.Point;
+import org.w3c.dom.NodeList;
+
+import com.rakosmanjr.heliostatpower.lib.XMLLocations;
+import com.rakosmanjr.heliostatpower.tileentity.TileBasicMetalWorker;
+
 public class ContainerMetalWorker extends Container
 {
-	TileBasicMetalWorker tileMetalWorker;
+	private final TileBasicMetalWorker tileMetalWorker;
+	
+	private static final Point millerGrid;
+	private static final Point millerOut;
+	private static final Point drawerGrid;
+	private static final Point drawerOut;
+	private static final Point playerInv;
+	
+	public static final NodeList slotNodes;
+	
+	private int nextSlot;
+	
+	static
+	{
+		slotNodes = XMLLocations.MW_READER.GetNodes("slots");
+		
+		millerGrid = XMLLocations.MW_READER.GetPointFromAttribute("millergrid",
+				slotNodes);
+		millerOut = XMLLocations.MW_READER.GetPointFromAttribute(
+				"milleroutput", slotNodes);
+		drawerGrid = XMLLocations.MW_READER.GetPointFromAttribute("drawergrid",
+				slotNodes);
+		drawerOut = XMLLocations.MW_READER.GetPointFromAttribute(
+				"draweroutput", slotNodes);
+		playerInv = XMLLocations.MW_READER.GetPointFromAttribute("playerinv",
+				slotNodes);
+	}
 	
 	public ContainerMetalWorker(InventoryPlayer inventoryPlayer,
 			TileBasicMetalWorker basicMetalWorker)
 	{
 		this.tileMetalWorker = basicMetalWorker;
 		
-		// Add crafting grid
-		int gridX = XMLLocations.MW_READER.GetAttributeFromNodeInt("craftgrid",
-				"x");
-		int gridY = XMLLocations.MW_READER.GetAttributeFromNodeInt("craftgrid",
-				"y");
-		
-		for (int craftingRowIndex = 0; craftingRowIndex < 3; ++craftingRowIndex)
+		AddMillerSlots();
+		AddDrawerSlots();
+		AddPlayerInventory(inventoryPlayer, playerInv.getX(), playerInv.getY());
+	}
+	
+	private void AddMillerSlots()
+	{
+		AddCraftingGrid(3, 3, millerGrid.getX(), millerGrid.getY());
+		addSlotToContainer(new Slot(tileMetalWorker, nextSlot,
+				millerOut.getX(), millerOut.getY()));
+		nextSlot++;
+	}
+	
+	private void AddDrawerSlots()
+	{
+		AddCraftingGrid(3, 1, drawerGrid.getX(), drawerGrid.getY());
+		addSlotToContainer(new Slot(tileMetalWorker, nextSlot,
+				drawerOut.getX(), drawerOut.getY()));
+		nextSlot++;
+	}
+	
+	private void AddCraftingGrid(int width, int height, int x, int y)
+	{
+		for (int craftingRowIndex = 0; craftingRowIndex < height; ++craftingRowIndex)
 		{
-			for (int craftingColumnIndex = 0; craftingColumnIndex < 3; ++craftingColumnIndex)
+			for (int craftingColumnIndex = 0; craftingColumnIndex < width; ++craftingColumnIndex)
 			{
-				addSlotToContainer(new Slot(tileMetalWorker,
-						craftingColumnIndex + craftingRowIndex * 3, gridX
-								+ craftingColumnIndex * 18, gridY
-								+ craftingRowIndex * 18));
+				addSlotToContainer(new Slot(tileMetalWorker, nextSlot, x
+						+ craftingColumnIndex * 18, y + craftingRowIndex * 18));
+				nextSlot++;
 			}
 		}
-		
-		// Add output slot
-		addSlotToContainer(new Slot(tileMetalWorker, 9,
-				XMLLocations.MW_READER.GetAttributeFromNodeInt("output", "x"),
-				XMLLocations.MW_READER.GetAttributeFromNodeInt("output", "y")));
-		
-		AddPlayerInventory(inventoryPlayer,
-				XMLLocations.MW_READER
-						.GetAttributeFromNodeInt("playerinv", "x"),
-				XMLLocations.MW_READER
-						.GetAttributeFromNodeInt("playerinv", "y"));
 	}
 	
 	private void AddPlayerInventory(InventoryPlayer inventoryPlayer, int x,
@@ -75,7 +107,7 @@ public class ContainerMetalWorker extends Container
 		for (int actionBarSlotIndex = 0; actionBarSlotIndex < 9; ++actionBarSlotIndex)
 		{
 			this.addSlotToContainer(new Slot(inventoryPlayer,
-					actionBarSlotIndex, 8 + actionBarSlotIndex * 18, 142));
+					actionBarSlotIndex, 8 + actionBarSlotIndex * 18, y + 58));
 		}
 	}
 	

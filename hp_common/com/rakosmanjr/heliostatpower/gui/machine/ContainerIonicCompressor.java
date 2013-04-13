@@ -9,6 +9,8 @@
  */
 package com.rakosmanjr.heliostatpower.gui.machine;
 
+import org.w3c.dom.NodeList;
+
 import com.rakosmanjr.heliostatpower.lib.XMLLocations;
 import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
 
@@ -20,7 +22,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerIonicCompressor extends Container
 {
-	TileBasicIonicCompressor basicIonicCompressor;
+	private TileBasicIonicCompressor basicIonicCompressor;
+	
+	private static NodeList slotNodes = XMLLocations.IC_READER.GetNodes("slots");
 	
 	public ContainerIonicCompressor(InventoryPlayer inventoryPlayer,
 			TileBasicIonicCompressor basicIonicCompressor)
@@ -29,44 +33,50 @@ public class ContainerIonicCompressor extends Container
 		
 		// Add crafting grid
 		// Start: (10, 20)
-		int gridX = XMLLocations.IC_READER.GetAttributeFromNodeInt("craftgrid", "x");
-		int gridY = XMLLocations.IC_READER.GetAttributeFromNodeInt("craftgrid", "y");
+		int gridX = XMLLocations.IC_READER.GetNodeAttributeInt("craftgrid",
+				"x", slotNodes);
+		int gridY = XMLLocations.IC_READER.GetNodeAttributeInt("craftgrid",
+				"y", slotNodes);
 		
 		for (int craftingRowIndex = 0; craftingRowIndex < 3; ++craftingRowIndex)
 		{
 			for (int craftingColumnIndex = 0; craftingColumnIndex < 5; ++craftingColumnIndex)
 			{
 				addSlotToContainer(new Slot(basicIonicCompressor,
-						craftingColumnIndex + craftingRowIndex * 5,
-						gridX + craftingColumnIndex * 18,
-						gridY + craftingRowIndex * 18));
+						craftingColumnIndex + craftingRowIndex * 5, gridX
+								+ craftingColumnIndex * 18, gridY
+								+ craftingRowIndex * 18));
 			}
 		}
 		
 		// Add sodium nitrate slot
 		addSlotToContainer(new Slot(basicIonicCompressor, 15,
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("nitrate", "x"),
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("nitrate", "y")));
+				XMLLocations.IC_READER.GetNodeAttributeInt("nitrate", "x",
+						slotNodes), XMLLocations.IC_READER.GetNodeAttributeInt(
+						"nitrate", "y", slotNodes)));
 		// Add output slot
 		addSlotToContainer(new Slot(basicIonicCompressor, 16,
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("output", "x"),
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("output", "y")));
+				XMLLocations.IC_READER.GetNodeAttributeInt("output", "x",
+						slotNodes), XMLLocations.IC_READER.GetNodeAttributeInt(
+						"output", "y", slotNodes)));
 		
 		AddPlayerInventory(inventoryPlayer,
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("playerinv", "x"),
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("playerinv", "y"));
+				XMLLocations.IC_READER.GetNodeAttributeInt("playerinv", "x",
+						slotNodes), XMLLocations.IC_READER.GetNodeAttributeInt(
+						"playerinv", "y", slotNodes));
 	}
 	
-	private void AddPlayerInventory(InventoryPlayer inventoryPlayer, int x, int y)
+	private void AddPlayerInventory(InventoryPlayer inventoryPlayer, int x,
+			int y)
 	{
 		for (int inventoryRowIndex = 0; inventoryRowIndex < 3; ++inventoryRowIndex)
 		{
 			for (int inventoryColumnIndex = 0; inventoryColumnIndex < 9; ++inventoryColumnIndex)
 			{
 				addSlotToContainer(new Slot(inventoryPlayer,
-						inventoryColumnIndex + inventoryRowIndex * 9 + 9,
-						x + inventoryColumnIndex * 18,
-						y + inventoryRowIndex * 18));
+						inventoryColumnIndex + inventoryRowIndex * 9 + 9, x
+								+ inventoryColumnIndex * 18, y
+								+ inventoryRowIndex * 18));
 			}
 		}
 		
@@ -97,7 +107,8 @@ public class ContainerIonicCompressor extends Container
 			
 			if (slotIndex < 17)
 			{
-				if (!this.mergeItemStack(itemStack, 17, inventorySlots.size(), true))
+				if (!this.mergeItemStack(itemStack, 17, inventorySlots.size(),
+						true))
 					return null;
 			}
 			else if (basicIonicCompressor.isStackValidForSlot(15, itemStack))

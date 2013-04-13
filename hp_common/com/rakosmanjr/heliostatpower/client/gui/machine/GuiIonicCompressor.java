@@ -11,6 +11,7 @@ package com.rakosmanjr.heliostatpower.client.gui.machine;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
+import org.w3c.dom.NodeList;
 
 import com.rakosmanjr.heliostatpower.core.helpers.XMLReader;
 import com.rakosmanjr.heliostatpower.gui.machine.ContainerIonicCompressor;
@@ -40,15 +41,17 @@ public class GuiIonicCompressor extends GuiContainer
 		
 		this.basicIonicCompressor = basicIonicCompressor;
 		
-		ySize = XMLLocations.IC_READER.GetAttributeFromNodeInt("gui", "height");
-		xSize = XMLLocations.IC_READER.GetAttributeFromNodeInt("gui", "width");
+		NodeList textNodes = XMLLocations.IC_READER.GetNodes("text");
+		
+		ySize = XMLLocations.IC_READER.GetBaseAttributeInt("height");
+		xSize = XMLLocations.IC_READER.GetBaseAttributeInt("width");
 		
 		nameDrawPoint = new Point(
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("name", "x"),
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("name", "y"));
+				XMLLocations.IC_READER.GetNodeAttributeInt("name", "x", textNodes),
+				XMLLocations.IC_READER.GetNodeAttributeInt("name", "y", textNodes));
 		statusDrawPoint = new Point(
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("status", "x"),
-				XMLLocations.IC_READER.GetAttributeFromNodeInt("status", "y"));
+				XMLLocations.IC_READER.GetNodeAttributeInt("status", "x", textNodes),
+				XMLLocations.IC_READER.GetNodeAttributeInt("status", "y", textNodes));
 	}
 	
 	@Override

@@ -40,5 +40,8 @@
 	<entry key="status.processing">Processing</entry>
 	<entry key="status.outputFull">Clear Output</entry>
 	
+	<entry key="milling">Milling</entry>
+	<entry key="drawing">Drawing</entry>
+	
 	<entry key="itemGroup.HeliostatPower">Heliostat Power</entry>
 </properties>

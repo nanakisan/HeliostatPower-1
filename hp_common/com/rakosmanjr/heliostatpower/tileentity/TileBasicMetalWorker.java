@@ -9,173 +9,56 @@
  */
 package com.rakosmanjr.heliostatpower.tileentity;
 
-import com.rakosmanjr.heliostatpower.items.crafting.CraftingIonicCompressor;
-import com.rakosmanjr.heliostatpower.items.crafting.CraftingMetalWorker;
-import com.rakosmanjr.heliostatpower.lib.Reference;
-import com.rakosmanjr.heliostatpower.lib.Strings;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.rakosmanjr.heliostatpower.lib.Strings;
+import com.rakosmanjr.heliostatpower.machine.MachineDrawer;
+import com.rakosmanjr.heliostatpower.machine.MachineMiller;
+
 public class TileBasicMetalWorker extends TileHeliostat implements
 		ISidedInventory
 {
-	private ItemStack[] inventory;
+	public final MachineMiller miller;
+	public final MachineDrawer drawer;
 	
-	private boolean craftingGridChanged;
-	private boolean validRecipe;
-	private boolean inCycle;
-	
-	private final int gridWidth = CraftingMetalWorker.GRID_WIDTH;
-	private final int gridHeight = CraftingMetalWorker.GRID_HEIGHT;
-	private final int gridTotal = CraftingMetalWorker.GRID_TOTAL;
-	private final int totalSlots = gridTotal + 1;
-	
-	private final int OUTPUT_SLOT = 9;
-	
-	// Cycle stuff
-	// Applies to the current cycle
-	private int recipeId; // recipeId for info lookup
-	private int totalTickCount; // total ticks passed during cycle
-	private int maxTickCount; // max ticks needed for cycle
-	private ItemStack result; // result of the recipe
-	private Status status; // status of the machine
+	private final ArrayList<ItemStack> inventory;
 	
 	public TileBasicMetalWorker()
 	{
-		inventory = new ItemStack[totalSlots];
+		inventory = new ArrayList<ItemStack>(Arrays.asList(new ItemStack[14]));
 		
-		craftingGridChanged = true;
-		validRecipe = false;
-		inCycle = false;
+		miller = new MachineMiller(inventory.subList(0, 10));
+		drawer = new MachineDrawer(inventory.subList(10, 14));
 		
 		SetCustomName(Strings.TE_METAL_WORKER);
 	}
 	
+	@Override
 	public void updateEntity()
 	{
-		if (craftingGridChanged)
-		{
-			validRecipe = CanProcess();
-		}
-		
-		if (validRecipe || inCycle)
-		{
-			if (inCycle)
-			{
-				ContinueProcessingCycle();
-			}
-			else
-			{
-				StartProcessingCycle();
-			}
-		}
-		else
-		{
-			status = Status.WaitingForRecipe;
-		}
-	}
-	
-	private boolean CanProcess()
-	{
-		recipeId = CraftingMetalWorker.Instance().GetRecipeId(inventory);
-		
-		return recipeId < 0 ? false : true;
-	}
-	
-	private void StartProcessingCycle()
-	{
-		if (recipeId < 0)
-		{
-			validRecipe = false;
-			return;
-		}
-		
-		totalTickCount = 0;
-		maxTickCount = CraftingMetalWorker.Instance().GetMaxTick(recipeId);
-		result = CraftingMetalWorker.Instance().GetResult(recipeId);
-		
-		inCycle = true;
-		
-		for (int x = 0; x < gridWidth; x++)
-		{
-			for (int y = 0; y < gridHeight; y++)
-			{
-				int slot = x * gridHeight + y;
-				int count = CraftingMetalWorker.Instance()
-						.ComponentsUsedInSlot(recipeId, slot);
-				
-				if (count == -1)
-				{
-					continue;
-				}
-				
-				decrStackSize(slot, count);
-			}
-		}
-	}
-	
-	private void ContinueProcessingCycle()
-	{
-		if (totalTickCount >= maxTickCount)
-		{
-			EndProcessingCycle();
-		}
-		else
-		{
-			status = Status.Processing;
-			totalTickCount++;
-		}
-	}
-	
-	private void EndProcessingCycle()
-	{
-		if (inventory[OUTPUT_SLOT] == null)
-		{
-			inventory[OUTPUT_SLOT] = result.copy();
-		}
-		else if (inventory[OUTPUT_SLOT].isItemEqual(result)
-				&& inventory[OUTPUT_SLOT].stackSize + result.stackSize <= inventory[OUTPUT_SLOT]
-						.getMaxStackSize())
-		{
-			inventory[OUTPUT_SLOT].stackSize += result.stackSize;
-		}
-		else
-		{
-			status = Status.OutputFull;
-			return;
-		}
-		
-		ForceEndProcessingCycle();
-	}
-	
-	private void ForceEndProcessingCycle()
-	{
-		inCycle = false;
-		totalTickCount = -1;
-		maxTickCount = -1;
-		result = null;
-	}
-	
-	public Status GetStatus()
-	{
-		return status;
+		miller.UpdateMachine();
+		drawer.UpdateMachine();
 	}
 	
 	@Override
 	public int getSizeInventory()
 	{
-		return inventory.length;
+		return miller.GetInventorySize() + drawer.GetInventorySize();
 	}
 	
 	@Override
 	public ItemStack getStackInSlot(int i)
-	{	
-		if (i >= 0 && i < inventory.length)
+	{
+		if (i >= 0 && i < getSizeInventory())
 		{
-			return inventory[i];
+			return inventory.get(i);
+			// return GetInventory(i);
 		}
 		
 		return null;
@@ -222,17 +105,8 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack)
 	{
-		inventory[i] = itemStack;
-		
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-		
-		if (i < gridTotal)
-		{
-			craftingGridChanged = true;
-		}
+		inventory.set(i, itemStack);
+		// SetInventory(i, itemStack);
 	}
 	
 	@Override
@@ -276,18 +150,6 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	@Override
 	public boolean isStackValidForSlot(int i, ItemStack itemstack)
 	{
-		if (i == OUTPUT_SLOT)
-		{
-			if (Reference.DEBUG)
-			{
-				return true;
-			}
-		}
-		else
-		{
-			return true;
-		}
-		
 		return false;
 	}
 	

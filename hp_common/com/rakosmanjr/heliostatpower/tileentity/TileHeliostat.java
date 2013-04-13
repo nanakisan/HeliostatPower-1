@@ -19,14 +19,12 @@ import net.minecraftforge.common.ForgeDirection;
 public class TileHeliostat extends TileEntity
 {
 	private ForgeDirection orientation;
-	private short state;
 	private String owner;
 	private String customName;
 	
 	public TileHeliostat()
 	{
 		orientation = ForgeDirection.SOUTH;
-		state = 0;
 		owner = "";
 		customName = "";
 	}
@@ -44,16 +42,6 @@ public class TileHeliostat extends TileEntity
 	public void SetOrientation(int orientation)
 	{
 		this.orientation = ForgeDirection.getOrientation(orientation);
-	}
-	
-	public short GetState()
-	{
-		return state;
-	}
-	
-	public void SetState(short state)
-	{
-		this.state = state;
 	}
 	
 	public String GetOwner()
@@ -102,11 +90,6 @@ public class TileHeliostat extends TileEntity
 					.getByte(NBTTags.NBT_TE_DIRECTION_KEY));
 		}
 		
-		if (nbtTagCompound.hasKey(NBTTags.NBT_TE_STATE_KEY))
-		{
-			state = nbtTagCompound.getShort(NBTTags.NBT_TE_STATE_KEY);
-		}
-		
 		if (nbtTagCompound.hasKey(NBTTags.NBT_TE_OWNER_KEY))
 		{
 			owner = nbtTagCompound.getString(NBTTags.NBT_TE_OWNER_KEY);
@@ -125,7 +108,6 @@ public class TileHeliostat extends TileEntity
 		
 		nbtTagCompound.setByte(NBTTags.NBT_TE_DIRECTION_KEY,
 				(byte)orientation.ordinal());
-		nbtTagCompound.setShort(NBTTags.NBT_TE_STATE_KEY, state);
 		
 		if (HasOwner())
 		{

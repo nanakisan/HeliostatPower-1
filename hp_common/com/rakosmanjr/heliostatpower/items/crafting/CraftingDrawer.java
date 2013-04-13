@@ -1,7 +1,7 @@
 /**
  * HeliostatPower
  *
- * @file CraftingMetalWorker.java
+ * @file CraftingDrawer.java
  *
  * @author rakosmanjr
  * @License Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
@@ -10,83 +10,60 @@
 package com.rakosmanjr.heliostatpower.items.crafting;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import net.minecraft.item.ItemStack;
+
 import com.rakosmanjr.heliostatpower.core.helpers.LogHelper;
-import com.rakosmanjr.heliostatpower.items.ModItems;
-import com.rakosmanjr.heliostatpower.tileentity.MetalWorkerState;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-
-public class CraftingMetalWorker
+public class CraftingDrawer
 {
-	private static CraftingMetalWorker instance = new CraftingMetalWorker();
+	private static CraftingDrawer instance = new CraftingDrawer();
 	
 	private static int nextId = 0;
 	private static Map<Integer, RecipeItem> recipes;
 	
 	public static final int GRID_WIDTH = 3;
-	public static final int GRID_HEIGHT = 3;
+	public static final int GRID_HEIGHT = 1;
 	public static final int GRID_TOTAL = GRID_WIDTH * GRID_HEIGHT;
 	
-	public CraftingMetalWorker()
+	public CraftingDrawer()
 	{
 		recipes = new Hashtable<Integer, RecipeItem>();
-		
-		AddRecipe(new ItemStack(ModItems.ironWafer), 20 * 5,
-				MetalWorkerState.Milling, new ItemStack[] { null, null, null,
-						new ItemStack(Item.ingotIron, 1),
-						new ItemStack(Item.ingotIron, 1),
-						new ItemStack(Item.ingotIron, 1),
-						new ItemStack(Item.ingotIron, 1),
-						new ItemStack(Item.ingotIron, 1),
-						new ItemStack(Item.ingotIron, 1) });
-		
-		for (ItemStack item : OreDictionary.getOres("ingotSilver"))
-		{
-			if (item.stackSize != 1)
-			{
-				item.stackSize = 1;
-			}
-			
-			AddRecipe(new ItemStack(ModItems.silverWafer), 20 * 5,
-					MetalWorkerState.Milling, new ItemStack[] { null, null,
-							null, item, item, item, item, item, item });
-			AddRecipe(new ItemStack(ModItems.silverSpool), 20 * 5,
-					MetalWorkerState.Drawing, new ItemStack[] { item, item,
-							item, item, null, item, item, item, item });
-		}
-		
-		for (ItemStack item : OreDictionary.getOres("ingotCopper"))
-		{
-			AddRecipe(new ItemStack(ModItems.copperWafer), 20 * 5,
-					MetalWorkerState.Milling, new ItemStack[] { null, null,
-							null, item, item, item, item, item, item });
-			AddRecipe(new ItemStack(ModItems.copperSpool), 20 * 5,
-					MetalWorkerState.Drawing, new ItemStack[] { item, item,
-							item, item, null, item, item, item, item });
-		}
 	}
 	
-	public static CraftingMetalWorker Instance()
+	/**
+	 * Returns the singleton instance
+	 */
+	public static CraftingDrawer Instance()
 	{
 		return instance;
 	}
 	
-	public void AddRecipe(ItemStack result, int maxTick,
-			MetalWorkerState state, ItemStack[] recipe)
+	/**
+	 * Add a new recipe to the Drawer
+	 * 
+	 * @param result
+	 *            ItemStack for what the recipe gives
+	 * @param maxTick
+	 *            Number of ticks it takes to complete the crafting (Note: 20
+	 *            ticks = 1 second)
+	 * @param recipe
+	 *            Array of ItemStacks representing the crafting grid
+	 *            horizontally, works with stack size!
+	 */
+	public void AddRecipe(ItemStack result, int maxTick, ItemStack[] recipe)
 	{
 		if (recipe.length != GRID_TOTAL)
 		{
 			LogHelper
 					.Log(Level.WARNING,
 							String.format(
-									"Invalid recipe added! Wrong size!\nRecipeId: %s Result: %s",
+									"Invalid recipe added to Miler! Wrong size!\nRecipeId: %s Result: %s",
 									nextId,
 									LanguageRegistry
 											.instance()
@@ -100,12 +77,18 @@ public class CraftingMetalWorker
 		recipeItem.recipe = recipe;
 		recipeItem.recipeId = nextId;
 		recipeItem.result = result;
-		recipeItem.state = state;
 		
 		recipes.put(nextId, recipeItem);
 		nextId++;
 	}
 	
+	/**
+	 * Returns the recipeId for the given recipe
+	 * 
+	 * @param input
+	 *            Array of ItemStacks representing the crafting grid
+	 *            horizontally. Must have the proper stack size for each stack!
+	 */
 	public int GetRecipeId(ItemStack[] input)
 	{
 		boolean itemFound = true;
@@ -142,11 +125,61 @@ public class CraftingMetalWorker
 		return -1;
 	}
 	
+	public int GetRecipeId(List<ItemStack> input)
+	{
+		boolean itemFound = true;
+		
+		for (RecipeItem recipe : recipes.values())
+		{
+			for (int i = 0; i < GRID_TOTAL; i++)
+			{
+				if (input.get(i) == null && recipe.recipe[i] == null)
+				{
+					itemFound = true;
+					continue;
+				}
+				else if ((input.get(i) != null && recipe.recipe[i] != null)
+						&& (input.get(i).isItemEqual(recipe.recipe[i])))
+				{
+					if (input.get(i).stackSize >= recipe.recipe[i].stackSize)
+					{
+						itemFound = true;
+						continue;
+					}
+				}
+				
+				itemFound = false;
+				break;
+			}
+			
+			if (itemFound)
+			{
+				return recipe.recipeId;
+			}
+		}
+		
+		return -1;
+	}
+	
+	/**
+	 * Gets the max tick for the given recipeId
+	 * 
+	 * @param recipeId
+	 *            Recipe Id gotten from GetRecipeId()
+	 */
 	public int GetMaxTick(int recipeId)
 	{
 		return recipes.get(recipeId).maxTick;
 	}
 	
+	/**
+	 * Gets the stack size for the given crafting slot, for the given recipeId
+	 * 
+	 * @param recipeId
+	 *            Recipe Id gotten from GetRecipeId()
+	 * @param slot
+	 *            Crafting slot number [0, GRID_TOTAL]
+	 */
 	public int ComponentsUsedInSlot(int recipeId, int slot)
 	{
 		if (recipes.get(recipeId).recipe[slot] == null)
@@ -157,14 +190,16 @@ public class CraftingMetalWorker
 		return recipes.get(recipeId).recipe[slot].stackSize;
 	}
 	
+	/**
+	 * Gets the result itemStack for the given recipeId Note: the returned
+	 * itemStack is a reference!
+	 * 
+	 * @param recipeId
+	 *            Recipe Id gotten from GetRecipeId()
+	 */
 	public ItemStack GetResult(int recipeId)
 	{
 		return recipes.get(recipeId).result;
-	}
-	
-	public MetalWorkerState GetRequiredState(int recipeId)
-	{
-		return recipes.get(recipeId).state;
 	}
 	
 	private class RecipeItem
@@ -173,6 +208,5 @@ public class CraftingMetalWorker
 		public ItemStack result;
 		public ItemStack[] recipe;
 		public int maxTick;
-		public MetalWorkerState state;
 	}
 }
