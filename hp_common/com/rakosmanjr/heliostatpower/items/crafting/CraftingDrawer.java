@@ -20,7 +20,7 @@ import com.rakosmanjr.heliostatpower.core.helpers.LogHelper;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class CraftingDrawer
+public class CraftingDrawer implements ICrafting
 {
 	private static CraftingDrawer instance = new CraftingDrawer();
 	
@@ -56,39 +56,36 @@ public class CraftingDrawer
 	 *            Array of ItemStacks representing the crafting grid
 	 *            horizontally, works with stack size!
 	 */
-	public void AddRecipe(ItemStack result, int maxTick, ItemStack[] recipe)
+	@Override
+	public void AddRecipe(RecipeItem recipeItem)// ItemStack result, int
+												// maxTick, ItemStack[] recipe)
 	{
-		if (recipe.length != GRID_TOTAL)
+		if (recipeItem.recipe.length != GRID_TOTAL)
 		{
 			LogHelper
 					.Log(Level.WARNING,
 							String.format(
-									"Invalid recipe added to Miler! Wrong size!\nRecipeId: %s Result: %s",
+									"Invalid recipe added to Drawer! Wrong size!\nRecipeId: %s Result: %s",
 									nextId,
 									LanguageRegistry
 											.instance()
 											.getStringLocalization(
-													result.getItem()
+													recipeItem.result
+															.getItem()
 															.getUnlocalizedName())));
 		}
 		
-		RecipeItem recipeItem = new RecipeItem();
-		recipeItem.maxTick = maxTick;
-		recipeItem.recipe = recipe;
+		// RecipeItem recipeItem = new RecipeItem();
+		// recipeItem.maxTick = maxTick;
+		// recipeItem.recipe = recipe;
 		recipeItem.recipeId = nextId;
-		recipeItem.result = result;
+		// recipeItem.result = result;
 		
 		recipes.put(nextId, recipeItem);
 		nextId++;
 	}
 	
-	/**
-	 * Returns the recipeId for the given recipe
-	 * 
-	 * @param input
-	 *            Array of ItemStacks representing the crafting grid
-	 *            horizontally. Must have the proper stack size for each stack!
-	 */
+	@Deprecated
 	public int GetRecipeId(ItemStack[] input)
 	{
 		boolean itemFound = true;
@@ -125,6 +122,14 @@ public class CraftingDrawer
 		return -1;
 	}
 	
+	/**
+	 * Returns the recipeId for the given recipe
+	 * 
+	 * @param input
+	 *            Array of ItemStacks representing the crafting grid
+	 *            horizontally. Must have the proper stack size for each stack!
+	 */
+	@Override
 	public int GetRecipeId(List<ItemStack> input)
 	{
 		boolean itemFound = true;
@@ -180,6 +185,7 @@ public class CraftingDrawer
 	 * @param slot
 	 *            Crafting slot number [0, GRID_TOTAL]
 	 */
+	@Override
 	public int ComponentsUsedInSlot(int recipeId, int slot)
 	{
 		if (recipes.get(recipeId).recipe[slot] == null)
@@ -200,13 +206,5 @@ public class CraftingDrawer
 	public ItemStack GetResult(int recipeId)
 	{
 		return recipes.get(recipeId).result;
-	}
-	
-	private class RecipeItem
-	{
-		public int recipeId;
-		public ItemStack result;
-		public ItemStack[] recipe;
-		public int maxTick;
 	}
 }

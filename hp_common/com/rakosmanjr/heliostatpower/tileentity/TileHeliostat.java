@@ -9,24 +9,60 @@
  */
 package com.rakosmanjr.heliostatpower.tileentity;
 
-import com.rakosmanjr.heliostatpower.lib.NBTTags;
-
+import ic2.api.Direction;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 
-public class TileHeliostat extends TileEntity
+import com.rakosmanjr.heliostatpower.lib.NBTTags;
+
+public class TileHeliostat extends TileEntity implements IEnergySink
 {
 	private ForgeDirection orientation;
 	private String owner;
 	private String customName;
+	private boolean initiated;
+	
+	protected int storedEnergy;
+	protected int maxEnergy;
 	
 	public TileHeliostat()
 	{
 		orientation = ForgeDirection.SOUTH;
 		owner = "";
 		customName = "";
+	}
+	
+	protected void Initiate()
+	{
+		MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+		
+		initiated = true;
+	}
+	
+	@Override
+	public void updateEntity()
+	{
+		if (!initiated)
+		{
+			Initiate();
+		}
+	}
+	
+	@Override
+	public void invalidate()
+	{
+		super.invalidate();
+	}
+	
+	@Override
+	public void onChunkUnload()
+	{
+		super.onChunkUnload();
 	}
 	
 	public ForgeDirection GetOrientation()
@@ -118,5 +154,44 @@ public class TileHeliostat extends TileEntity
 		{
 			nbtTagCompound.setString(NBTTags.NBT_TE_CUSTOM_NAME, customName);
 		}
+	}
+	
+	@Override
+	public boolean isAddedToEnergyNet()
+	{
+		return initiated;
+	}
+	
+	@Override
+	public boolean acceptsEnergyFrom(TileEntity emitter, Direction direction)
+	{
+		return true;
+	}
+	
+	@Override
+	public int demandsEnergy()
+	{
+		return maxEnergy - storedEnergy;
+	}
+	
+	@Override
+	public int injectEnergy(Direction directionFrom, int amount)
+	{
+		int need = (maxEnergy - storedEnergy) - amount;
+		
+		if (need < 0)
+		{
+			storedEnergy = maxEnergy;
+			return -need;
+		}
+		
+		storedEnergy = maxEnergy - need;
+		return 0;
+	}
+	
+	@Override
+	public int getMaxSafeInput()
+	{
+		return Integer.MAX_VALUE;
 	}
 }

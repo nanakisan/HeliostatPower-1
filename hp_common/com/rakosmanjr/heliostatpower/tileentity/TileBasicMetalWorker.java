@@ -32,9 +32,10 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	public TileBasicMetalWorker()
 	{
 		inventory = new ArrayList<ItemStack>(Arrays.asList(new ItemStack[14]));
-		
 		miller = new MachineMiller(inventory.subList(0, 10));
 		drawer = new MachineDrawer(inventory.subList(10, 14));
+		
+		maxEnergy = miller.GetMaxEnergy() + drawer.GetMaxEnergy();
 		
 		SetCustomName(Strings.TE_METAL_WORKER);
 	}
@@ -42,6 +43,13 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	@Override
 	public void updateEntity()
 	{
+		super.updateEntity();
+		
+		int tophalfEnergy = storedEnergy / 2;
+		storedEnergy -= tophalfEnergy;
+		int extra = miller.GiveEnergy(tophalfEnergy);
+		storedEnergy = drawer.GiveEnergy(storedEnergy + extra);
+		
 		miller.UpdateMachine();
 		drawer.UpdateMachine();
 	}

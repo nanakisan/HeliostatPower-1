@@ -80,16 +80,14 @@ public class Crafting
 						ironWaferStack });
 		
 		CraftingMiller.Instance().AddRecipe(
-				angleIronStack,
-				20 * 5,
-				new ItemStack[] { null, null, ironStack, null, null, ironStack,
-						ironStack, ironStack, ironStack });
+				new RecipeItem(angleIronStack, new ItemStack[] { null, null,
+						ironStack, null, null, ironStack, ironStack, ironStack,
+						ironStack }, 20 * 5, 0, 0, 1, 20));
 		CraftingMiller.Instance().AddRecipe(
-				angleIronCrossStack,
-				20 * 5,
-				new ItemStack[] { angleIronStack, null, angleIronStack, null,
+				new RecipeItem(angleIronCrossStack, new ItemStack[] {
 						angleIronStack, null, angleIronStack, null,
-						angleIronStack });
+						angleIronStack, null, angleIronStack, null,
+						angleIronStack }, 20 * 5, 0, 0, 1, 20));
 		
 		for (ItemStack item : new ItemStack[] { ironStack })// OreDictionary.getOres("ingotIron"))
 		{
@@ -99,10 +97,9 @@ public class Crafting
 			}
 			
 			CraftingMiller.Instance().AddRecipe(
-					ironWaferStack,
-					20 * 5,
-					new ItemStack[] { item, item, item, item, item, item, item,
-							item, item });
+					new RecipeItem(ironWaferStack, new ItemStack[] { item,
+							item, item, item, item, item, item, item, item },
+							20 * 5, 0, 0, 1, 20));
 			// CraftingDrawer.Instance().AddRecipe(
 			// new ItemStack(ModItems.ironWafer), 20 * 5,
 			// new ItemStack[] { item, item, item });
@@ -116,25 +113,25 @@ public class Crafting
 			}
 			
 			CraftingMiller.Instance().AddRecipe(
-					silverWaferStack,
-					20 * 5,
-					new ItemStack[] { item, item, item, item, item, item, item,
-							item, item });
+					new RecipeItem(silverWaferStack, new ItemStack[] { item,
+							item, item, item, item, item, item, item, item },
+							20 * 5, 0, 0, 1, 20));
 			CraftingDrawer.Instance().AddRecipe(
-					new ItemStack(ModItems.silverSpool), 20 * 5,
-					new ItemStack[] { item, item, item });
+					new RecipeItem(new ItemStack(ModItems.silverSpool),
+							new ItemStack[] { item, item, item }, 20 * 5, 0, 0,
+							1, 20));
 		}
 		
 		for (ItemStack item : OreDictionary.getOres("ingotCopper"))
 		{
 			CraftingMiller.Instance().AddRecipe(
-					copperWaferStack,
-					20 * 5,
-					new ItemStack[] { item, item, item, item, item, item, item,
-							item, item });
+					new RecipeItem(copperWaferStack, new ItemStack[] { item,
+							item, item, item, item, item, item, item, item },
+							20 * 5, 0, 0, 1, 20));
 			CraftingDrawer.Instance().AddRecipe(
-					new ItemStack(ModItems.copperSpool), 20 * 5,
-					new ItemStack[] { item, item, item });
+					new RecipeItem(new ItemStack(ModItems.copperSpool),
+							new ItemStack[] { item, item, item }, 20 * 5, 0, 0,
+							1, 20));
 		}
 	}
 	

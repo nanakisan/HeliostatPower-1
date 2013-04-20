@@ -13,6 +13,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
+import com.rakosmanjr.heliostatpower.items.crafting.ICrafting;
 import com.rakosmanjr.heliostatpower.tileentity.Status;
 
 /**
@@ -29,13 +30,20 @@ public abstract class MachineHeliostatPower
 	protected final int GRID_TOTAL;
 	protected final int TOTAL_SLOTS;
 	
+	protected int outputSlot;
+	
 	protected int recipeId;
 	protected int totalTickCount;
 	protected int maxTickCount;
 	protected ItemStack result;
 	protected Status status;
 	
+	protected int maxEnergy;
+	protected int storedEnergy;
+	
 	protected List<ItemStack> inventory;
+	
+	protected ICrafting crafter;
 	
 	/**
 	 * @param gridWidth
@@ -46,49 +54,141 @@ public abstract class MachineHeliostatPower
 	 *            Amount of slots in addition to the crafting grid
 	 */
 	public MachineHeliostatPower(int gridWidth, int gridHeight,
-			int additionalSlots, List<ItemStack> inventory)
+			int additionalSlots, List<ItemStack> inventory, ICrafting crafter)
 	{
 		this.GRID_WIDTH = gridWidth;
 		this.GRID_HEIGHT = gridHeight;
 		this.GRID_TOTAL = gridHeight * gridHeight;
 		this.TOTAL_SLOTS = GRID_TOTAL + additionalSlots;
 		this.inventory = inventory;
-		// this.inventory = new ItemStack[TOTAL_SLOTS];
+		this.crafter = crafter;
 	}
 	
 	/**
 	 * Call to update the machine More than one call a tick can throw the
 	 * machine off
 	 */
-	public abstract void UpdateMachine();
+	public void UpdateMachine()
+	{
+		if (craftingGridChanged)
+		{
+			validRecipe = CanProcess();
+		}
+		
+		if (validRecipe || inCycle)
+		{
+			if (inCycle)
+			{
+				ContinueProcessingCycle();
+			}
+			else
+			{
+				StartProcessingCycle();
+			}
+		}
+		else
+		{
+			status = Status.WaitingForRecipe;
+		}
+	}
 	
 	/**
 	 * Checks if the machine can process what's in the crafting grid
 	 * 
 	 * @return True if it can process
 	 */
-	protected abstract boolean CanProcess();
+	protected boolean CanProcess()
+	{
+		recipeId = crafter.GetRecipeId(inventory);
+		
+		return !(recipeId < 0);
+	}
 	
 	/**
 	 * Starts a processing job If called during a job, that job could be
 	 * canceled
 	 */
-	protected abstract void StartProcessingCycle();
+	protected void StartProcessingCycle()
+	{
+		if (recipeId < 0)
+		{
+			validRecipe = false;
+			return;
+		}
+		
+		totalTickCount = 0;
+		maxTickCount = crafter.GetMaxTick(recipeId);
+		result = crafter.GetResult(recipeId);
+		
+		inCycle = true;
+		
+		for (int x = 0; x < GRID_WIDTH; x++)
+		{
+			for (int y = 0; y < GRID_HEIGHT; y++)
+			{
+				int slot = x * GRID_HEIGHT + y;
+				int count = crafter.ComponentsUsedInSlot(recipeId, slot);
+				
+				if (count == -1)
+				{
+					continue;
+				}
+				
+				DecrementStackAt(slot, count);
+			}
+		}
+	}
 	
 	/**
 	 * Continues a processing job
 	 */
-	protected abstract void ContinueProcessingCycle();
+	protected void ContinueProcessingCycle()
+	{
+		if (totalTickCount >= maxTickCount)
+		{
+			EndProcessingCycle();
+		}
+		else
+		{
+			status = Status.Processing;
+			totalTickCount++;
+		}
+	}
 	
 	/**
 	 * Ends a processing job nicely
 	 */
-	protected abstract void EndProcessingCycle();
+	protected void EndProcessingCycle()
+	{
+		if (inventory.get(outputSlot) == null)
+		{
+			inventory.set(outputSlot, result.copy());
+		}
+		else if (inventory.get(outputSlot).isItemEqual(result)
+				&& inventory.get(outputSlot).stackSize + result.stackSize <= inventory
+						.get(outputSlot).getMaxStackSize())
+		{
+			inventory.get(outputSlot).stackSize += result.stackSize;
+		}
+		else
+		{
+			status = Status.OutputFull;
+			return;
+		}
+		
+		ForceEndProcessingCycle();
+	}
 	
 	/**
 	 * Forces the current job to end
 	 */
-	protected abstract void ForceEndProcessingCycle();
+	protected void ForceEndProcessingCycle()
+	{
+		inCycle = false;
+		totalTickCount = -1;
+		maxTickCount = -1;
+		result = null;
+	}
 	
 	/**
 	 * @return Returns the status of the machine
@@ -104,6 +204,46 @@ public abstract class MachineHeliostatPower
 	public boolean IsMachineProcessing()
 	{
 		return inCycle;
+	}
+	
+	/**
+	 * Gives energy to the machine
+	 * 
+	 * @param amount
+	 *            Amount of energy to give to the machine
+	 * @return Amount of energy not used
+	 */
+	public int GiveEnergy(int amount)
+	{
+		int need = (maxEnergy - storedEnergy) - amount;
+		
+		if (need < 0)
+		{
+			storedEnergy = maxEnergy;
+			return -need;
+		}
+		
+		storedEnergy = maxEnergy - need;
+		return 0;
+	}
+	
+	/**
+	 * Returns the max stored energy
+	 */
+	public int GetMaxEnergy()
+	{
+		return maxEnergy;
+	}
+	
+	/**
+	 * Returns the stored energy between 0 and total
+	 * 
+	 * @param total
+	 *            What number to normalize the stored energy too
+	 */
+	public int GetNormalizedStoredEnergy(int total)
+	{
+		return (storedEnergy * total) / maxEnergy;
 	}
 	
 	/**

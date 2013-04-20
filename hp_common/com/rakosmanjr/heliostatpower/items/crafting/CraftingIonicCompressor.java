@@ -228,14 +228,4 @@ public class CraftingIonicCompressor
 	{
 		return recipes.get(recipeId).result;
 	}
-	
-	private class RecipeItem
-	{
-		public int recipeId;
-		public ItemStack result;
-		public ItemStack[] recipe;
-		public int maxTick;
-		public int fuelConsumptionRate;
-		public int fuelConsumed;
-	}
 }
