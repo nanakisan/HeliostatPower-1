@@ -330,8 +330,19 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 	}
 	
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack)
+	public void readFromNBT(NBTTagCompound tag)
 	{
+		super.readFromNBT(tag);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound tag)
+	{
+		super.writeToNBT(tag);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		if (i == FUEL_SLOT)
 		{
 			Map<Item, Integer> fuels = CraftingIonicCompressor.Instance()
@@ -356,34 +367,19 @@ public class TileBasicIonicCompressor extends TileHeliostat implements
 		
 		return false;
 	}
-	
+
 	@Override
-	public int[] getSizeInventorySide(int var1)
-	{
+	public int[] getAccessibleSlotsFromSide(int var1) {
 		return null;
 	}
-	
+
 	@Override
-	public boolean func_102007_a(int i, ItemStack itemstack, int j)
-	{
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
 		return false;
 	}
-	
+
 	@Override
-	public boolean func_102008_b(int i, ItemStack itemstack, int j)
-	{
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
 		return false;
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound tag)
-	{
-		super.readFromNBT(tag);
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound tag)
-	{
-		super.writeToNBT(tag);
 	}
 }

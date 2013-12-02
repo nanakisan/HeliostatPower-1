@@ -9,6 +9,8 @@
  */
 package com.rakosmanjr.heliostatpower.lib;
 
+import net.minecraft.util.ResourceLocation;
+
 public class Textures
 {
 	// Base file locations
@@ -17,6 +19,8 @@ public class Textures
 	public static final String GUI_SHEET_LOCATION = "/mods/heliostatpower/textures/gui/";
 	
 	// GUI textures
-	public static final String GUI_IONIC_COMPRESSOR_TEXTURE = GUI_SHEET_LOCATION + "ionicCompressor.png";
-	public static final String GUI_METAL_WORKER_TEXTURE = GUI_SHEET_LOCATION + "metalWorker.png";
+	public static final ResourceLocation GUI_IONIC_COMPRESSOR_TEXTURE = new ResourceLocation(
+			"heliostatpower:textures/gui/ionicCompressor.png");
+	public static final ResourceLocation GUI_METAL_WORKER_TEXTURE = new ResourceLocation(
+			"helostatpower:textures/gui/metalWorker.png");
 }

@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemSodiumNitrate extends ItemHeliostat
 {
-	public ItemSodiumNitrate(int id)
+	public ItemSodiumNitrate(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.SODIUM_NITRATE_NAME);
+		super(id, name);
 	}
 }

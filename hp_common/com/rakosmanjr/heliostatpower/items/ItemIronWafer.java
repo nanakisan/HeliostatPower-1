@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemIronWafer extends ItemHeliostat
 {
-	public ItemIronWafer(int id)
+	public ItemIronWafer(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.IRON_WAFER_NAME);
+		super(id, name);
 	}
 }

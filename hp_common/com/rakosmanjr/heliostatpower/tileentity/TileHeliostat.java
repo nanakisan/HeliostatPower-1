@@ -27,8 +27,8 @@ public class TileHeliostat extends TileEntity implements IEnergySink
 	private String customName;
 	private boolean initiated;
 	
-	protected int storedEnergy;
-	protected int maxEnergy;
+	protected double storedEnergy;
+	protected double maxEnergy;
 	
 	public TileHeliostat()
 	{
@@ -157,27 +157,20 @@ public class TileHeliostat extends TileEntity implements IEnergySink
 	}
 	
 	@Override
-	public boolean isAddedToEnergyNet()
-	{
-		return initiated;
-	}
-	
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, Direction direction)
+	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
 	{
 		return true;
 	}
 	
 	@Override
-	public int demandsEnergy()
-	{
+	public double demandedEnergyUnits() {
 		return maxEnergy - storedEnergy;
 	}
 	
 	@Override
-	public int injectEnergy(Direction directionFrom, int amount)
+	public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
 	{
-		int need = (maxEnergy - storedEnergy) - amount;
+		double need = (double) ((maxEnergy - storedEnergy) - amount);
 		
 		if (need < 0)
 		{

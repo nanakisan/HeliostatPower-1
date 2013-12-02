@@ -15,8 +15,8 @@ import com.rakosmanjr.heliostatpower.core.helpers.XMLReader;
 public class XMLLocations
 {
 	// GUI XML files
-	public static String GUI_IONIC_COMPRESSOR_SHORT_XML = Textures.GUI_SHEET_LOCATION + "ionicCompressor.xml";
-	public static String GUI_METAL_WORKER_SHORT_XML = Textures.GUI_SHEET_LOCATION + "metalWorker.xml";
+	public static String GUI_IONIC_COMPRESSOR_SHORT_XML = "mods/assets/heliostatpower/textures/gui/" + "ionicCompressor.xml";
+	public static String GUI_METAL_WORKER_SHORT_XML = "mods/assets/heliostatpower/textures/gui/" + "metalWorker.xml";
 	
 	public static String GUI_IONIC_COMPRESSOR_FULL_XML = HeliostatPower.class.getResource(GUI_IONIC_COMPRESSOR_SHORT_XML).getPath().replaceFirst("%20", " ");
 	public static String GUI_METAL_WORKER_FULL_XML = HeliostatPower.class.getResource(GUI_METAL_WORKER_SHORT_XML).getPath().replaceFirst("%20", " ");

@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemLens extends ItemHeliostat
 {
-	public ItemLens(int id)
+	public ItemLens(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.LENS_NAME);
+		super(id, name);
 	}
 }

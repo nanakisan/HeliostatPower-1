@@ -36,16 +36,16 @@ public class BlockSodiumNitrateCrystal extends BlockSand
 		MinecraftForge.setBlockHarvestLevel(this, "shovel", 3);
 	}
 	
+	public int idDropped(int metadata, Random random, int zero)
+	{
+		return ModItems.sodiumNitrate.itemID;
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
 		blockIcon = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + this.getUnlocalizedName().substring(this.getUnlocalizedName().indexOf(".") + 1));
-	}
-	
-	public int idDropped(int metadata, Random random, int zero)
-	{
-		return ModItems.sodiumNitrate.itemID;
 	}
 	
 	public int quantityDropped(Random random)

@@ -21,7 +21,7 @@ public class Reference
 	public static final String MOD_ID = "heliostatpower";
 	public static final String MOD_NAME = "HeliostatPower";
 	public static final String VERSION = "0.0.3";
-	public static final String MC_VERSION = "1.5.1";
+	public static final String MC_VERSION = "1.6.4";
 	
 	public static final int SHIFTED_ID_RANGE_CORRECTION = 256;
 	

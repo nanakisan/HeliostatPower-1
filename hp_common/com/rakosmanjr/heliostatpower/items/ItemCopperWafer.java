@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemCopperWafer extends ItemHeliostat
 {
-	public ItemCopperWafer(int id)
+	public ItemCopperWafer(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.COPPER_WAFER_NAME);
+		super(id, name);
 	}
 }

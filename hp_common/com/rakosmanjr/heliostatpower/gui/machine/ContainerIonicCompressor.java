@@ -24,7 +24,7 @@ public class ContainerIonicCompressor extends Container
 {
 	private TileBasicIonicCompressor basicIonicCompressor;
 	
-	private static NodeList slotNodes = XMLLocations.IC_READER.GetNodes("slots");
+	//private static NodeList slotNodes = XMLLocations.IC_READER.GetNodes("slots");
 	
 	public ContainerIonicCompressor(InventoryPlayer inventoryPlayer,
 			TileBasicIonicCompressor basicIonicCompressor)
@@ -33,10 +33,8 @@ public class ContainerIonicCompressor extends Container
 		
 		// Add crafting grid
 		// Start: (10, 20)
-		int gridX = XMLLocations.IC_READER.GetNodeAttributeInt("craftgrid",
-				"x", slotNodes);
-		int gridY = XMLLocations.IC_READER.GetNodeAttributeInt("craftgrid",
-				"y", slotNodes);
+		int gridX = 10;
+		int gridY = 20;
 		
 		for (int craftingRowIndex = 0; craftingRowIndex < 3; ++craftingRowIndex)
 		{
@@ -50,20 +48,11 @@ public class ContainerIonicCompressor extends Container
 		}
 		
 		// Add sodium nitrate slot
-		addSlotToContainer(new Slot(basicIonicCompressor, 15,
-				XMLLocations.IC_READER.GetNodeAttributeInt("nitrate", "x",
-						slotNodes), XMLLocations.IC_READER.GetNodeAttributeInt(
-						"nitrate", "y", slotNodes)));
+		addSlotToContainer(new Slot(basicIonicCompressor, 15, 109, 11));
 		// Add output slot
-		addSlotToContainer(new Slot(basicIonicCompressor, 16,
-				XMLLocations.IC_READER.GetNodeAttributeInt("output", "x",
-						slotNodes), XMLLocations.IC_READER.GetNodeAttributeInt(
-						"output", "y", slotNodes)));
+		addSlotToContainer(new Slot(basicIonicCompressor, 16, 142, 38 ));
 		
-		AddPlayerInventory(inventoryPlayer,
-				XMLLocations.IC_READER.GetNodeAttributeInt("playerinv", "x",
-						slotNodes), XMLLocations.IC_READER.GetNodeAttributeInt(
-						"playerinv", "y", slotNodes));
+		AddPlayerInventory(inventoryPlayer, 8, 84);
 	}
 	
 	private void AddPlayerInventory(InventoryPlayer inventoryPlayer, int x,
@@ -111,7 +100,7 @@ public class ContainerIonicCompressor extends Container
 						true))
 					return null;
 			}
-			else if (basicIonicCompressor.isStackValidForSlot(15, itemStack))
+			else if (basicIonicCompressor.isItemValidForSlot(15, itemStack))
 			{
 				if (!mergeItemStack(itemStack, 0, 16, true))
 				{

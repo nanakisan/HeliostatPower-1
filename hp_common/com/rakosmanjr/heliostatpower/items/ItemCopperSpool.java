@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemCopperSpool extends ItemHeliostat
 {
-	public ItemCopperSpool(int id)
+	public ItemCopperSpool(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.COPPER_SPOOL_NAME);
+		super(id, name);
 	}
 }

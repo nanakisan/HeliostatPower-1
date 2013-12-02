@@ -45,9 +45,9 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	{
 		super.updateEntity();
 		
-		int tophalfEnergy = storedEnergy / 2;
+		double tophalfEnergy = storedEnergy / 2;
 		storedEnergy -= tophalfEnergy;
-		int extra = miller.GiveEnergy(tophalfEnergy);
+		double extra = miller.GiveEnergy(tophalfEnergy);
 		storedEnergy = drawer.GiveEnergy(storedEnergy + extra);
 		
 		miller.UpdateMachine();
@@ -156,30 +156,6 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	}
 	
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack)
-	{
-		return false;
-	}
-	
-	@Override
-	public int[] getSizeInventorySide(int var1)
-	{
-		return null;
-	}
-	
-	@Override
-	public boolean func_102007_a(int i, ItemStack itemstack, int j)
-	{
-		return false;
-	}
-	
-	@Override
-	public boolean func_102008_b(int i, ItemStack itemstack, int j)
-	{
-		return false;
-	}
-	
-	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
@@ -189,5 +165,25 @@ public class TileBasicMetalWorker extends TileHeliostat implements
 	public void writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return false;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		return null;
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+		return false;
 	}
 }

@@ -9,40 +9,44 @@
  */
 package com.rakosmanjr.heliostatpower.block;
 
-import com.rakosmanjr.heliostatpower.lib.Reference;
-import com.rakosmanjr.heliostatpower.tileentity.TileHeliostat;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
+import com.rakosmanjr.heliostatpower.lib.Reference;
+import com.rakosmanjr.heliostatpower.lib.Strings;
+import com.rakosmanjr.heliostatpower.tileentity.TileHeliostat;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockHeliostat extends BlockContainer
 {
-	public BlockHeliostat(int id, Material material)
+	public BlockHeliostat(int id, Material material, String name)
 	{
 		super(id, material);
+		setUnlocalizedName(name);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		blockIcon = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + getUnlocalizedName().substring(getUnlocalizedName().indexOf(".") + 1));
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack itemStack)
-	{
+	public void onBlockPlacedBy(World world, int x, int y, int z,
+			EntityLivingBase par5EntityLivingBase, ItemStack itemStack) {
+	
 		int direction = 0;
-		int facing = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		int facing = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		switch (facing)
 		{
@@ -67,7 +71,7 @@ public class BlockHeliostat extends BlockContainer
 			((TileHeliostat)world.getBlockTileEntity(x, y, z)).SetCustomName(itemStack.getDisplayName());
 		}
 		
-		((TileHeliostat)world.getBlockTileEntity(x, y, z)).SetOwner(entityLiving.getEntityName());
+		((TileHeliostat)world.getBlockTileEntity(x, y, z)).SetOwner(par5EntityLivingBase.getEntityName());
 		((TileHeliostat)world.getBlockTileEntity(x, y, z)).SetOrientation(direction);
 	}
 	

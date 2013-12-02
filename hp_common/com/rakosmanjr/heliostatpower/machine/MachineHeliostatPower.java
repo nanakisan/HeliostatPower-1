@@ -39,7 +39,7 @@ public abstract class MachineHeliostatPower
 	protected Status status;
 	
 	protected int maxEnergy;
-	protected int storedEnergy;
+	protected double storedEnergy;
 	
 	protected List<ItemStack> inventory;
 	
@@ -209,13 +209,13 @@ public abstract class MachineHeliostatPower
 	/**
 	 * Gives energy to the machine
 	 * 
-	 * @param amount
+	 * @param tophalfEnergy
 	 *            Amount of energy to give to the machine
 	 * @return Amount of energy not used
 	 */
-	public int GiveEnergy(int amount)
+	public double GiveEnergy(double tophalfEnergy)
 	{
-		int need = (maxEnergy - storedEnergy) - amount;
+		double need = (maxEnergy - storedEnergy) - tophalfEnergy;
 		
 		if (need < 0)
 		{
@@ -241,7 +241,7 @@ public abstract class MachineHeliostatPower
 	 * @param total
 	 *            What number to normalize the stored energy too
 	 */
-	public int GetNormalizedStoredEnergy(int total)
+	public double GetNormalizedStoredEnergy(int total)
 	{
 		return (storedEnergy * total) / maxEnergy;
 	}

@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemAdhesive extends ItemHeliostat
 {
-	public ItemAdhesive(int id)
+	public ItemAdhesive(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.ADHESIVE_NAME);
+		super(id, name);
 	}
 }

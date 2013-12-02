@@ -11,10 +11,15 @@ package com.rakosmanjr.heliostatpower.block;
 
 import com.rakosmanjr.heliostatpower.HeliostatPower;
 import com.rakosmanjr.heliostatpower.lib.GuiIds;
+import com.rakosmanjr.heliostatpower.lib.Reference;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 import com.rakosmanjr.heliostatpower.tileentity.TileBasicIonicCompressor;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -23,12 +28,18 @@ public class BlockBasicIonicCompressor extends BlockHeliostat
 {
 	public BlockBasicIonicCompressor(int id)
 	{
-		super(id, Material.iron);
+		super(id, Material.iron, Strings.IONIC_COMPRESSOR_NAME);
 		
-		setUnlocalizedName(Strings.IONIC_COMPRESSOR_NAME);
 		setCreativeTab(HeliostatPower.tabsHP);
 		setHardness(5F);
 		setBlockBounds(0, 0, 0, 1, 1, 1);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister iconRegister)
+	{
+		blockIcon = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase() + ":" + this.getUnlocalizedName().substring(this.getUnlocalizedName().indexOf(".") + 1));
 	}
 	
 	@Override

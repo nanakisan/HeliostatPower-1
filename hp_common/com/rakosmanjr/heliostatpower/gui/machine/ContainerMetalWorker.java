@@ -25,31 +25,7 @@ public class ContainerMetalWorker extends Container
 {
 	private final TileBasicMetalWorker tileMetalWorker;
 	
-	private static final Point millerGrid;
-	private static final Point millerOut;
-	private static final Point drawerGrid;
-	private static final Point drawerOut;
-	private static final Point playerInv;
-	
-	public static final NodeList slotNodes;
-	
 	private int nextSlot;
-	
-	static
-	{
-		slotNodes = XMLLocations.MW_READER.GetNodes("slots");
-		
-		millerGrid = XMLLocations.MW_READER.GetPointFromAttribute("millergrid",
-				slotNodes);
-		millerOut = XMLLocations.MW_READER.GetPointFromAttribute(
-				"milleroutput", slotNodes);
-		drawerGrid = XMLLocations.MW_READER.GetPointFromAttribute("drawergrid",
-				slotNodes);
-		drawerOut = XMLLocations.MW_READER.GetPointFromAttribute(
-				"draweroutput", slotNodes);
-		playerInv = XMLLocations.MW_READER.GetPointFromAttribute("playerinv",
-				slotNodes);
-	}
 	
 	public ContainerMetalWorker(InventoryPlayer inventoryPlayer,
 			TileBasicMetalWorker basicMetalWorker)
@@ -58,22 +34,21 @@ public class ContainerMetalWorker extends Container
 		
 		AddMillerSlots();
 		AddDrawerSlots();
-		AddPlayerInventory(inventoryPlayer, playerInv.getX(), playerInv.getY());
+		AddPlayerInventory(inventoryPlayer, 8, 139);
 	}
 	
 	private void AddMillerSlots()
 	{
-		AddCraftingGrid(3, 3, millerGrid.getX(), millerGrid.getY());
-		addSlotToContainer(new Slot(tileMetalWorker, nextSlot,
-				millerOut.getX(), millerOut.getY()));
+		AddCraftingGrid(3, 3, 26, 14);
+		addSlotToContainer(new Slot(tileMetalWorker, nextSlot, 130, 32));
 		nextSlot++;
 	}
 	
 	private void AddDrawerSlots()
 	{
-		AddCraftingGrid(3, 1, drawerGrid.getX(), drawerGrid.getY());
+		AddCraftingGrid(3, 1, 26, 95);
 		addSlotToContainer(new Slot(tileMetalWorker, nextSlot,
-				drawerOut.getX(), drawerOut.getY()));
+				130, 95));
 		nextSlot++;
 	}
 	
@@ -135,7 +110,7 @@ public class ContainerMetalWorker extends Container
 						true))
 					return null;
 			}
-			else if (tileMetalWorker.isStackValidForSlot(15, itemStack))
+			else if (tileMetalWorker.isItemValidForSlot(15, itemStack))
 			{
 				if (!mergeItemStack(itemStack, 0, 9, true))
 				{

@@ -9,13 +9,13 @@
  */
 package com.rakosmanjr.heliostatpower.items;
 
+import com.rakosmanjr.heliostatpower.lib.Reference;
 import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemMirror extends ItemHeliostat
 {
-	public ItemMirror(int id)
+	public ItemMirror(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.MIRROR_NAME);
+		super(id, name);
 	}
 }

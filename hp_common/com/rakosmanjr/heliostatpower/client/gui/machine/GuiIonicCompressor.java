@@ -30,8 +30,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 public class GuiIonicCompressor extends GuiContainer
 {
 	private TileBasicIonicCompressor basicIonicCompressor;
-	private Point nameDrawPoint;
-	private Point statusDrawPoint;
 	
 	public GuiIonicCompressor(InventoryPlayer inventoryPlayer,
 			TileBasicIonicCompressor basicIonicCompressor)
@@ -40,18 +38,9 @@ public class GuiIonicCompressor extends GuiContainer
 				basicIonicCompressor));
 		
 		this.basicIonicCompressor = basicIonicCompressor;
-		
-		NodeList textNodes = XMLLocations.IC_READER.GetNodes("text");
-		
-		ySize = XMLLocations.IC_READER.GetBaseAttributeInt("height");
-		xSize = XMLLocations.IC_READER.GetBaseAttributeInt("width");
-		
-		nameDrawPoint = new Point(
-				XMLLocations.IC_READER.GetNodeAttributeInt("name", "x", textNodes),
-				XMLLocations.IC_READER.GetNodeAttributeInt("name", "y", textNodes));
-		statusDrawPoint = new Point(
-				XMLLocations.IC_READER.GetNodeAttributeInt("status", "x", textNodes),
-				XMLLocations.IC_READER.GetNodeAttributeInt("status", "y", textNodes));
+			
+		ySize = 166;
+		xSize = 176;
 	}
 	
 	@Override
@@ -61,16 +50,14 @@ public class GuiIonicCompressor extends GuiContainer
 		String containerName = basicIonicCompressor.isInvNameLocalized() ? basicIonicCompressor
 				.getInvName() : LanguageRegistry.instance()
 				.getStringLocalization(basicIonicCompressor.getInvName());
-		fontRenderer.drawString(containerName, nameDrawPoint.getX(),
-				nameDrawPoint.getY(), 4210752);
+		fontRenderer.drawString(containerName, 11, 6, 4210752);
 		
 		// draw status at (104, 64)
 		String currentStatus = LanguageRegistry.instance()
 				.getStringLocalization(
 						NameMaps.STATUS_NAMEMAP.get(basicIonicCompressor
 								.GetStatus()));
-		fontRenderer.drawString(currentStatus, statusDrawPoint.getX(),
-				statusDrawPoint.getY(), 4210752);
+		fontRenderer.drawString(currentStatus, 104, 64, 4210752);
 	}
 	
 	@Override

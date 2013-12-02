@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemAngleIronCross extends ItemHeliostat
 {
-	public ItemAngleIronCross(int id)
+	public ItemAngleIronCross(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.ANGLE_IRON_CROSS_NAME);
+		super(id, name);
 	}
 }

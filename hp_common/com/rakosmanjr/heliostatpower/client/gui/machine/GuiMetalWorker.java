@@ -28,60 +28,17 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class GuiMetalWorker extends GuiContainer
 {
 	private final TileBasicMetalWorker basicMetalWorker;
-	private static final Point nameDrawPoint;
-	private static final Point millerStatusDrawPoint;
-	private static final Point drawerStatusDrawPoint;
 	
 	private static final Rectangle baseArrow;
 	private static final Rectangle millerArrow;
 	private static final Rectangle drawerArrow;
 	
-	public static final NodeList textNodes;
-	public static final NodeList arrowNodes;
-	
 	static
 	{
-		textNodes = XMLLocations.MW_READER.GetNodes("text");
-		arrowNodes = XMLLocations.MW_READER.GetNodes("arrow");
 		
-		nameDrawPoint = new Point(XMLLocations.MW_READER.GetNodeAttributeInt(
-				"name", "x", textNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("name", "y",
-						textNodes));
-		
-		millerStatusDrawPoint = new Point(
-				XMLLocations.MW_READER.GetNodeAttributeInt("millerstatus", "x",
-						textNodes), XMLLocations.MW_READER.GetNodeAttributeInt(
-						"millerstatus", "y", textNodes));
-		drawerStatusDrawPoint = new Point(
-				XMLLocations.MW_READER.GetNodeAttributeInt("drawerstatus", "x",
-						textNodes), XMLLocations.MW_READER.GetNodeAttributeInt(
-						"drawerstatus", "y", textNodes));
-		
-		baseArrow = new Rectangle(XMLLocations.MW_READER.GetNodeAttributeInt(
-				"texture", "x", arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("texture", "y",
-						arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("texture", "width",
-						arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("texture", "height",
-						arrowNodes));
-		millerArrow = new Rectangle(XMLLocations.MW_READER.GetNodeAttributeInt(
-				"miller", "x", arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("miller", "y",
-						arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("miller", "width",
-						arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("miller", "height",
-						arrowNodes));
-		drawerArrow = new Rectangle(XMLLocations.MW_READER.GetNodeAttributeInt(
-				"drawer", "x", arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("drawer", "y",
-						arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("drawer", "width",
-						arrowNodes),
-				XMLLocations.MW_READER.GetNodeAttributeInt("drawer", "height",
-						arrowNodes));
+		baseArrow = new Rectangle(176, 0, 32, 15);
+		millerArrow = new Rectangle(86, 33, 32, 15);
+		drawerArrow = new Rectangle(86, 96, 32, 15);
 	}
 	
 	public GuiMetalWorker(InventoryPlayer inventoryPlayer,
@@ -102,8 +59,7 @@ public class GuiMetalWorker extends GuiContainer
 		String containerName = basicMetalWorker.isInvNameLocalized() ? basicMetalWorker
 				.getInvName() : LanguageRegistry.instance()
 				.getStringLocalization(basicMetalWorker.getInvName());
-		fontRenderer.drawString(containerName, nameDrawPoint.getX(),
-				nameDrawPoint.getY(), 4210752);
+		fontRenderer.drawString(containerName, 5, 5, 4210752);
 		
 		// Draw the machines status'
 		String millerStatus = LanguageRegistry.instance()
@@ -115,10 +71,8 @@ public class GuiMetalWorker extends GuiContainer
 						NameMaps.STATUS_NAMEMAP.get(basicMetalWorker.drawer
 								.GetStatus()));
 		
-		fontRenderer.drawString(millerStatus, millerStatusDrawPoint.getX(),
-				millerStatusDrawPoint.getY(), 4210752);
-		fontRenderer.drawString(drawerStatus, drawerStatusDrawPoint.getX(),
-				drawerStatusDrawPoint.getY(), 4210752);
+		fontRenderer.drawString(millerStatus, 95, 58, 4210752);
+		fontRenderer.drawString(drawerStatus, 95, 121, 4210752);
 		
 		// Draw the arrows
 		

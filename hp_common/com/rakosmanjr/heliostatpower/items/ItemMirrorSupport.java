@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemMirrorSupport extends ItemHeliostat
 {
-	public ItemMirrorSupport(int id)
+	public ItemMirrorSupport(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.MIRROR_SUPPORT_NAME);
+		super(id, name);
 	}
 }

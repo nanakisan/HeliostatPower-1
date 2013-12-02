@@ -13,9 +13,8 @@ import com.rakosmanjr.heliostatpower.lib.Strings;
 
 public class ItemSilverSpool extends ItemHeliostat
 {
-	public ItemSilverSpool(int id)
+	public ItemSilverSpool(int id, String name)
 	{
-		super(id);
-		setUnlocalizedName(Strings.SILVER_SPOOL_NAME);
+		super(id, name);
 	}
 }
