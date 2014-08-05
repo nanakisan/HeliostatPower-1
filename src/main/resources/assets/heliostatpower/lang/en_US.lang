@@ -1,0 +1,41 @@
+item.angleIron.name=Angle Iron
+item.angleIronCross.name=Angle Iron Cross
+item.mirrorSupport.name=Mirror Support
+item.mirror.name=Mirror
+item.lens.name=Lens
+item.highPressureIronWafer.name=High Pressure Iron Wafer
+item.ironWafer.name=Iron Wafer
+item.silverWafer.name=Silver Wafer
+item.copperWafer.name=Copper Wafer
+item.temperedGlass.name=Tempered Glass
+item.copperSpool.name=Copper Spool
+item.silverSpool.name=Silver Spool
+item.adhesive.name=Adhesive
+item.sodiumNitrate.name=Sodium Nitrate
+
+tile.angleIronCrossBracing.name=Angle Iron Cross Bracing
+tile.focusingBlock.name=Focusing Block
+tile.mirrorAssembly.name=Mirror Assembly
+tile.pipe.name=Pipe
+tile.boilerPlating.name=Boiler Plating
+tile.heatingUnit.name=Heating Unit
+tile.housing.name=Housing
+tile.rotorBlades.name=Rotor Blades
+tile.copperCoils.name=Copper Coils
+tile.highDensityCabling.name=High Density Cabling
+tile.sodiumNitrateCrystal.name=Crystalized Sodium Nitrate
+tile.ionicCompressor.name=Ionic Compressor [TEMP]
+tile.metalWorker.name=Metal Worker [TEMP]
+
+tileIonicCompressor=Ionic Compressor
+tileMetalWorker=Metal Worker
+
+status.waitingForRecipe=Waiting
+status.waitingForFuel=Need Fuel
+status.processing=Processing
+status.outputFull=Clear Output
+
+milling=Milling
+drawing=Drawing
+
+itemGroup.HeliostatPower=Heliostat Power
